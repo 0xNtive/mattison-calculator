@@ -298,3 +298,105 @@ export function calculateMattisonPerformance(
     annualizedReturnPercent: Math.round(annualizedReturnPercent * 10) / 10,
   };
 }
+
+// Rebalancing simulation types and calculations
+export type RebalanceFrequency = "none" | "annual" | "quarterly" | "monthly";
+
+export interface RebalanceDataPoint {
+  year: number;
+  rebalancedValue: number;
+  buyHoldValue: number;
+}
+
+export interface RebalanceResult {
+  dataPoints: RebalanceDataPoint[];
+  finalRebalanced: number;
+  finalBuyHold: number;
+  differencePercent: number;
+  totalRebalanceEvents: number;
+}
+
+/**
+ * Simulate portfolio performance with different rebalancing strategies.
+ * Compares rebalanced portfolio vs buy-and-hold.
+ */
+export function simulateRebalancing(
+  initialInvestment: number,
+  goldPercentage: number,
+  btcPercentage: number,
+  priceData: { year: number; gold: number; bitcoin: number }[],
+  frequency: RebalanceFrequency,
+  startYear: number
+): RebalanceResult {
+  const startData = priceData.find(p => p.year === startYear);
+  if (!startData) {
+    return {
+      dataPoints: [],
+      finalRebalanced: initialInvestment,
+      finalBuyHold: initialInvestment,
+      differencePercent: 0,
+      totalRebalanceEvents: 0,
+    };
+  }
+
+  // Buy and hold - initial purchase
+  const buyHoldGoldUnits = (initialInvestment * goldPercentage / 100) / startData.gold;
+  const buyHoldBtcUnits = (initialInvestment * btcPercentage / 100) / startData.bitcoin;
+
+  // Rebalanced portfolio - starts with same allocation
+  let rebalancedGoldUnits = buyHoldGoldUnits;
+  let rebalancedBtcUnits = buyHoldBtcUnits;
+  let rebalanceEvents = 0;
+
+  const dataPoints: RebalanceDataPoint[] = [];
+  const relevantData = priceData.filter(p => p.year >= startYear);
+
+  // Determine rebalance frequency in months
+  const rebalanceMonths = frequency === "annual" ? 12 : frequency === "quarterly" ? 3 : frequency === "monthly" ? 1 : 0;
+
+  for (let i = 0; i < relevantData.length; i++) {
+    const data = relevantData[i];
+
+    // Calculate buy-and-hold value
+    const buyHoldValue = buyHoldGoldUnits * data.gold + buyHoldBtcUnits * data.bitcoin;
+
+    // Calculate rebalanced value before any rebalancing
+    const rebalancedValue = rebalancedGoldUnits * data.gold + rebalancedBtcUnits * data.bitcoin;
+
+    dataPoints.push({
+      year: data.year,
+      rebalancedValue: Math.round(rebalancedValue),
+      buyHoldValue: Math.round(buyHoldValue),
+    });
+
+    // Check if we should rebalance at this point (simulating year-end rebalancing)
+    // Since we only have yearly data, we approximate based on frequency
+    if (frequency !== "none" && i < relevantData.length - 1) {
+      // Calculate how many rebalance events per year
+      const eventsPerYear = 12 / rebalanceMonths;
+
+      // Simulate rebalancing by resetting to target allocation
+      const targetGoldValue = rebalancedValue * goldPercentage / 100;
+      const targetBtcValue = rebalancedValue * btcPercentage / 100;
+
+      rebalancedGoldUnits = targetGoldValue / data.gold;
+      rebalancedBtcUnits = targetBtcValue / data.bitcoin;
+      rebalanceEvents += eventsPerYear;
+    }
+  }
+
+  const finalData = dataPoints[dataPoints.length - 1];
+  const finalRebalanced = finalData?.rebalancedValue || initialInvestment;
+  const finalBuyHold = finalData?.buyHoldValue || initialInvestment;
+  const differencePercent = finalBuyHold > 0
+    ? ((finalRebalanced - finalBuyHold) / finalBuyHold) * 100
+    : 0;
+
+  return {
+    dataPoints,
+    finalRebalanced,
+    finalBuyHold,
+    differencePercent: Math.round(differencePercent * 10) / 10,
+    totalRebalanceEvents: Math.round(rebalanceEvents),
+  };
+}

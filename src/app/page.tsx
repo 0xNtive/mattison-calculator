@@ -8,6 +8,7 @@ import LearnMore from "@/components/LearnMore";
 import HistoricalCalculator from "@/components/HistoricalCalculator";
 import { AllocationResult, SubAllocations, DEFAULT_SUB_ALLOCATIONS } from "@/lib/allocation";
 import RetirementProjection from "@/components/RetirementProjection";
+import RebalancingSimulator from "@/components/RebalancingSimulator";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -82,6 +83,12 @@ export default function Home() {
 
               {/* Retirement Projection */}
               <RetirementProjection currentAge={age} />
+
+              {/* Rebalancing Simulator */}
+              <RebalancingSimulator
+                goldPercentage={allocation.goldPercentage}
+                btcPercentage={allocation.btcPercentage}
+              />
             </div>
 
             {/* Learn more - mobile only below chart */}

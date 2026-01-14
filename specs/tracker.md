@@ -179,22 +179,22 @@ This document tracks the implementation progress of features defined in [specs/p
 ---
 
 ### Feature 3.2: Rebalancing Simulator
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Design simulator UI | ⬜ | Frequency selector + chart |
-| Implement rebalancing calculation | ⬜ | Simulate periodic rebalancing |
-| Create comparison chart | ⬜ | Rebalanced vs buy-and-hold |
-| Add frequency toggle | ⬜ | Annual, Quarterly, Monthly, None |
-| Calculate and display final values | ⬜ | Show difference |
-| Write educational explanation | ⬜ | Why rebalancing matters |
-| Handle edge cases | ⬜ | Partial years, etc. |
+| Design simulator UI | ✅ | Collapsible card with frequency buttons |
+| Implement rebalancing calculation | ✅ | simulateRebalancing function |
+| Create comparison chart | ✅ | LineChart comparing rebalanced vs buy-and-hold |
+| Add frequency toggle | ✅ | Buy & Hold, Annual, Quarterly, Monthly options |
+| Calculate and display final values | ✅ | Summary cards with difference percentage |
+| Write educational explanation | ✅ | Dynamic text explaining rebalancing impact |
+| Handle edge cases | ✅ | Start year selector, handles all data ranges |
 
-**Files to modify:**
-- New: `src/components/RebalancingSimulator.tsx`
-- `src/lib/allocation.ts` (rebalancing logic)
-- `src/app/page.tsx`
+**Files modified:**
+- New: `src/components/RebalancingSimulator.tsx` - Full simulator component
+- `src/lib/allocation.ts` - Added simulateRebalancing, RebalanceFrequency, RebalanceResult types
+- `src/app/page.tsx` - Integrated RebalancingSimulator component
 
 **Dependencies:** None
 
@@ -282,9 +282,9 @@ This document tracks the implementation progress of features defined in [specs/p
 |-------|----------|--------|----------|
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
 | Phase 2 | Data & Flexibility | 🟢 Complete | 3/3 |
-| Phase 3 | Educational Tools | 🟡 In Progress | 1/3 |
+| Phase 3 | Educational Tools | 🟡 In Progress | 2/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **6/10** |
+| **Total** | **10 Features** | | **7/10** |
 
 ---
 
@@ -338,3 +338,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Feature 2.2 (Table with Sparklines) completed - Sparkline component, AllocationTable with 5Y trends, chart/table toggle, mobile responsive |
 | 2026-01-14 | Feature 2.3 (Enhanced Share Cards) completed - Premium dark theme, asset logos, historical performance badge (+X% since 2015), improved sub-allocation display |
 | 2026-01-14 | Feature 3.1 (Retirement Age Projection) completed - Timeline chart showing allocation shift from current age to retirement, milestone markers, educational context |
+| 2026-01-14 | Feature 3.2 (Rebalancing Simulator) completed - Compare rebalanced vs buy-and-hold portfolios, frequency toggle, educational explanation |
