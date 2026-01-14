@@ -1,8 +1,13 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useMemo } from "react";
 import { toPng } from "html-to-image";
-import { formatPercentage, SubAllocations } from "@/lib/allocation";
+import {
+  formatPercentage,
+  SubAllocations,
+  calculateMattisonPerformance,
+} from "@/lib/allocation";
+import { historicalPrices } from "@/data/historicalPrices";
 
 interface ShareButtonsProps {
   age: number;
@@ -35,6 +40,11 @@ export default function ShareButtons({
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
 
+  // Calculate historical performance (from 2015 to latest year)
+  const performance = useMemo(() => {
+    return calculateMattisonPerformance(age, 2015, 2025, historicalPrices);
+  }, [age]);
+
   const generateImage = useCallback(async () => {
     if (!cardRef.current) return null;
 
@@ -44,7 +54,7 @@ export default function ShareButtons({
         width: 1200,
         height: 630,
         pixelRatio: 2,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#0f0f14",
       });
       return dataUrl;
     } catch (error) {
@@ -131,139 +141,342 @@ export default function ShareButtons({
         </button>
       </div>
 
-      {/* Hidden card for image generation */}
+      {/* Hidden card for image generation - Premium dark theme */}
       <div className="overflow-hidden" style={{ height: 0 }}>
         <div
           ref={cardRef}
           style={{
             width: 1200,
             height: 630,
-            padding: 60,
-            background: "linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)",
+            padding: 50,
+            background: "linear-gradient(135deg, #1a1a2e 0%, #151525 50%, #0f0f14 100%)",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
             fontFamily: "Inter, system-ui, sans-serif",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          <div style={{ fontSize: 32, fontWeight: 600, color: "#374151", marginBottom: 20 }}>
-            Mattison Allocation Calculator
+          {/* Background decorative elements */}
+          <div
+            style={{
+              position: "absolute",
+              top: -100,
+              right: -100,
+              width: 400,
+              height: 400,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(247, 147, 26, 0.15) 0%, transparent 70%)",
+              filter: "blur(60px)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: -100,
+              left: -100,
+              width: 400,
+              height: 400,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%)",
+              filter: "blur(60px)",
+            }}
+          />
+
+          {/* Header */}
+          <div style={{ textAlign: "center", zIndex: 1 }}>
+            <div
+              style={{
+                fontSize: 28,
+                fontWeight: 700,
+                background: "linear-gradient(90deg, #FFD700, #F7931A)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                letterSpacing: "-0.02em",
+                marginBottom: 8,
+              }}
+            >
+              Mattison Allocation Calculator
+            </div>
+            <div
+              style={{
+                fontSize: 20,
+                color: "#a1a1aa",
+                fontWeight: 500,
+              }}
+            >
+              Age {age}
+            </div>
           </div>
-          <div style={{ fontSize: 24, color: "#6B7280", marginBottom: 50 }}>
-            Age {age}
-          </div>
-          <div style={{ display: "flex", gap: 60, marginBottom: isCustomized ? 30 : 50 }}>
+
+          {/* Main allocation display */}
+          <div
+            style={{
+              display: "flex",
+              gap: 80,
+              zIndex: 1,
+            }}
+          >
+            {/* Gold allocation */}
             <div style={{ textAlign: "center" }}>
               <div
                 style={{
-                  width: 200,
-                  height: 200,
-                  borderRadius: 100,
-                  background: "linear-gradient(135deg, #FFD700 0%, #B8860B 100%)",
+                  width: 180,
+                  height: 180,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #FFE44D 0%, #FFD700 40%, #B8860B 100%)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: "column",
-                  marginBottom: 20,
+                  marginBottom: 16,
+                  boxShadow: "0 0 60px -10px rgba(255, 215, 0, 0.5), 0 0 100px -20px rgba(255, 215, 0, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3)",
                   position: "relative",
                 }}
               >
                 {/* Gold Bar Icon */}
                 <svg
-                  width="40"
-                  height="40"
+                  width="32"
+                  height="32"
                   viewBox="0 0 24 24"
                   fill="none"
-                  style={{ position: "absolute", top: 25 }}
+                  style={{ position: "absolute", top: 28 }}
                 >
                   <path
                     d="M4 18L6 8H18L20 18H4Z"
-                    fill="#FFFFFF"
-                    stroke="#FFFFFF"
+                    fill="rgba(255, 255, 255, 0.9)"
+                    stroke="rgba(255, 255, 255, 0.9)"
                     strokeWidth="0.5"
                   />
                   <path
                     d="M6 8L8 6H16L18 8H6Z"
-                    fill="#FFF9E6"
-                    stroke="#FFFFFF"
+                    fill="rgba(255, 255, 255, 0.7)"
+                    stroke="rgba(255, 255, 255, 0.9)"
                     strokeWidth="0.5"
                   />
                 </svg>
-                <span style={{ fontSize: 48, fontWeight: 700, color: "white", marginTop: 30 }}>
+                <span
+                  style={{
+                    fontSize: 44,
+                    fontWeight: 800,
+                    color: "white",
+                    marginTop: 28,
+                    letterSpacing: "-0.02em",
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
                   {formatPercentage(goldPercentage)}
                 </span>
               </div>
-              <div style={{ fontSize: 28, fontWeight: 600, color: "#374151" }}>Gold / PMs</div>
+              <div
+                style={{
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: "#FFD700",
+                  textShadow: "0 0 20px rgba(255, 215, 0, 0.5)",
+                }}
+              >
+                Gold / PMs
+              </div>
             </div>
+
+            {/* Bitcoin allocation */}
             <div style={{ textAlign: "center" }}>
               <div
                 style={{
-                  width: 200,
-                  height: 200,
-                  borderRadius: 100,
-                  background: "linear-gradient(135deg, #F7931A 0%, #E6820F 100%)",
+                  width: 180,
+                  height: 180,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #FFA940 0%, #F7931A 40%, #E6820F 100%)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: "column",
-                  marginBottom: 20,
+                  marginBottom: 16,
+                  boxShadow: "0 0 60px -10px rgba(247, 147, 26, 0.5), 0 0 100px -20px rgba(247, 147, 26, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3)",
                   position: "relative",
                 }}
               >
                 {/* Bitcoin Icon */}
                 <svg
-                  width="40"
-                  height="40"
+                  width="32"
+                  height="32"
                   viewBox="0 0 24 24"
                   fill="none"
-                  style={{ position: "absolute", top: 25 }}
+                  style={{ position: "absolute", top: 28 }}
                 >
-                  <circle cx="12" cy="12" r="12" fill="white" fillOpacity="0.2" />
+                  <circle cx="12" cy="12" r="11" fill="rgba(255, 255, 255, 0.2)" />
                   <path
                     d="M16.662 10.661c.224-1.498-.917-2.303-2.478-2.84l.507-2.032-1.236-.308-.493 1.978c-.325-.081-.659-.158-.991-.233l.497-1.992-1.235-.308-.507 2.031c-.269-.061-.533-.122-.79-.185l.001-.006-1.704-.426-.329 1.32s.917.21.898.223c.501.125.591.456.576.719l-.577 2.315c.035.009.079.022.129.042l-.131-.033-.808 3.243c-.061.152-.217.38-.567.293.012.018-.898-.224-.898-.224l-.614 1.415 1.608.401c.299.075.592.153.881.227l-.512 2.056 1.234.308.507-2.033c.337.091.664.176.984.256l-.505 2.025 1.235.308.512-2.053c2.11.399 3.696.238 4.364-1.67.538-1.537-.027-2.424-1.137-3.002.809-.186 1.418-.718 1.58-1.816zm-2.828 3.965c-.382 1.537-2.968.706-3.806.497l.679-2.722c.838.209 3.527.623 3.127 2.225zm.383-3.986c-.349 1.398-2.502.688-3.2.514l.616-2.468c.698.174 2.948.499 2.584 1.954z"
-                    fill="white"
+                    fill="rgba(255, 255, 255, 0.9)"
                   />
                 </svg>
-                <span style={{ fontSize: 48, fontWeight: 700, color: "white", marginTop: 30 }}>
+                <span
+                  style={{
+                    fontSize: 44,
+                    fontWeight: 800,
+                    color: "white",
+                    marginTop: 28,
+                    letterSpacing: "-0.02em",
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
                   {formatPercentage(btcPercentage)}
                 </span>
               </div>
-              <div style={{ fontSize: 28, fontWeight: 600, color: "#374151" }}>Bitcoin / Crypto</div>
+              <div
+                style={{
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: "#F7931A",
+                  textShadow: "0 0 20px rgba(247, 147, 26, 0.5)",
+                }}
+              >
+                Bitcoin / Crypto
+              </div>
             </div>
           </div>
-          {/* Sub-allocation breakdown */}
-          {isCustomized && subAllocations && (
-            <div style={{ display: "flex", gap: 40, marginBottom: 30, fontSize: 14, color: "#6B7280" }}>
-              <div style={{ textAlign: "left" }}>
-                {subAllocations.gold.physicalGold > 0 && subAllocations.gold.physicalGold < 100 && (
-                  <div>Physical Gold: {subAllocations.gold.physicalGold}%</div>
-                )}
-                {subAllocations.gold.goldEtf > 0 && (
-                  <div>Gold ETFs: {subAllocations.gold.goldEtf}%</div>
-                )}
-                {subAllocations.gold.silver > 0 && (
-                  <div>Silver: {subAllocations.gold.silver}%</div>
-                )}
-                {subAllocations.gold.platinum > 0 && (
-                  <div>Platinum: {subAllocations.gold.platinum}%</div>
-                )}
+
+          {/* Sub-allocation breakdown and Performance badge */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 16,
+              zIndex: 1,
+            }}
+          >
+            {/* Sub-allocation breakdown */}
+            {isCustomized && subAllocations && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: 60,
+                  padding: "12px 24px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 12,
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div style={{ textAlign: "left", fontSize: 13, color: "#a1a1aa" }}>
+                  {subAllocations.gold.physicalGold > 0 && subAllocations.gold.physicalGold < 100 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span style={{ color: "#FFD700" }}>●</span> Physical Gold: {subAllocations.gold.physicalGold}%
+                    </div>
+                  )}
+                  {subAllocations.gold.goldEtf > 0 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span style={{ color: "#FFD700" }}>●</span> Gold ETFs: {subAllocations.gold.goldEtf}%
+                    </div>
+                  )}
+                  {subAllocations.gold.silver > 0 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span style={{ color: "#C0C0C0" }}>●</span> Silver: {subAllocations.gold.silver}%
+                    </div>
+                  )}
+                  {subAllocations.gold.platinum > 0 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ color: "#E5E4E2" }}>●</span> Platinum: {subAllocations.gold.platinum}%
+                    </div>
+                  )}
+                </div>
+                <div style={{ textAlign: "left", fontSize: 13, color: "#a1a1aa" }}>
+                  {subAllocations.crypto.bitcoin > 0 && subAllocations.crypto.bitcoin < 100 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span style={{ color: "#F7931A" }}>●</span> Bitcoin: {subAllocations.crypto.bitcoin}%
+                    </div>
+                  )}
+                  {subAllocations.crypto.ethereum > 0 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span style={{ color: "#627EEA" }}>●</span> Ethereum: {subAllocations.crypto.ethereum}%
+                    </div>
+                  )}
+                  {subAllocations.crypto.other > 0 && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ color: "#8B5CF6" }}>●</span> Other Crypto: {subAllocations.crypto.other}%
+                    </div>
+                  )}
+                </div>
               </div>
-              <div style={{ textAlign: "left" }}>
-                {subAllocations.crypto.bitcoin > 0 && subAllocations.crypto.bitcoin < 100 && (
-                  <div>Bitcoin: {subAllocations.crypto.bitcoin}%</div>
-                )}
-                {subAllocations.crypto.ethereum > 0 && (
-                  <div>Ethereum: {subAllocations.crypto.ethereum}%</div>
-                )}
-                {subAllocations.crypto.other > 0 && (
-                  <div>Other Crypto: {subAllocations.crypto.other}%</div>
-                )}
+            )}
+
+            {/* Performance badge */}
+            {performance && (
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "8px 20px",
+                  background: "linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%)",
+                  borderRadius: 100,
+                  border: "1px solid rgba(34, 197, 94, 0.3)",
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M3 17L9 11L13 15L21 7"
+                    stroke="#22c55e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M15 7H21V13"
+                    stroke="#22c55e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: "#22c55e",
+                    textShadow: "0 0 20px rgba(34, 197, 94, 0.4)",
+                  }}
+                >
+                  Mattison +{performance.totalReturnPercent.toLocaleString()}% since {performance.startYear}
+                </span>
               </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              zIndex: 1,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 14,
+                color: "#71717a",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Calculate your allocation at
             </div>
-          )}
-          <div style={{ fontSize: 18, color: "#9CA3AF" }}>
-            Calculate your allocation at mattison-calculator.vercel.app
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: "#f5f5f7",
+                padding: "4px 12px",
+                background: "rgba(255, 255, 255, 0.1)",
+                borderRadius: 6,
+              }}
+            >
+              mattison-calculator.vercel.app
+            </div>
           </div>
         </div>
       </div>

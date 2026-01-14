@@ -186,3 +186,57 @@ export function calculateAllocationWithSubs(
 
   return result;
 }
+
+// Historical performance calculation for Mattison strategy
+export interface HistoricalPerformance {
+  startYear: number;
+  endYear: number;
+  totalReturnPercent: number;
+  annualizedReturnPercent: number;
+}
+
+/**
+ * Calculate the historical performance of the Mattison allocation strategy
+ * based on a specific age (which determines the Gold/BTC split)
+ */
+export function calculateMattisonPerformance(
+  age: number,
+  startYear: number,
+  endYear: number,
+  priceData: { year: number; gold: number; bitcoin: number }[]
+): HistoricalPerformance | null {
+  const startData = priceData.find(p => p.year === startYear);
+  const endData = priceData.find(p => p.year === endYear);
+
+  if (!startData || !endData) return null;
+
+  const { goldPercentage, btcPercentage } = calculateAllocation(age);
+
+  // Calculate initial allocations (assume $10,000 starting investment)
+  const initialInvestment = 10000;
+  const goldAllocation = initialInvestment * (goldPercentage / 100);
+  const btcAllocation = initialInvestment * (btcPercentage / 100);
+
+  // Calculate units purchased at start
+  const goldUnits = goldAllocation / startData.gold;
+  const btcUnits = btcAllocation / startData.bitcoin;
+
+  // Calculate final value
+  const finalGoldValue = goldUnits * endData.gold;
+  const finalBtcValue = btcUnits * endData.bitcoin;
+  const finalValue = finalGoldValue + finalBtcValue;
+
+  // Calculate returns
+  const totalReturnPercent = ((finalValue - initialInvestment) / initialInvestment) * 100;
+  const years = endYear - startYear;
+  const annualizedReturnPercent = years > 0
+    ? (Math.pow(finalValue / initialInvestment, 1 / years) - 1) * 100
+    : 0;
+
+  return {
+    startYear,
+    endYear,
+    totalReturnPercent: Math.round(totalReturnPercent),
+    annualizedReturnPercent: Math.round(annualizedReturnPercent * 10) / 10,
+  };
+}
