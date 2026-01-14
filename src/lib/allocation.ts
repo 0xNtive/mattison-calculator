@@ -187,6 +187,64 @@ export function calculateAllocationWithSubs(
   return result;
 }
 
+// Retirement projection types and calculation
+export interface RetirementProjectionPoint {
+  age: number;
+  goldPercentage: number;
+  btcPercentage: number;
+  isMilestone?: boolean;
+  milestoneLabel?: string;
+}
+
+/**
+ * Generate retirement projection data from current age to target retirement age
+ */
+export function generateRetirementProjection(
+  currentAge: number,
+  retirementAge: number
+): RetirementProjectionPoint[] {
+  const points: RetirementProjectionPoint[] = [];
+  const boundedCurrentAge = Math.max(MIN_AGE, Math.min(currentAge, MAX_AGE));
+  const boundedRetirementAge = Math.max(boundedCurrentAge, Math.min(retirementAge, MAX_AGE));
+
+  // Milestone ages to highlight
+  const milestones = [30, 40, 50, 60, 65, 70];
+
+  for (let age = boundedCurrentAge; age <= boundedRetirementAge; age++) {
+    const { goldPercentage, btcPercentage } = calculateAllocation(age);
+
+    const isMilestone = milestones.includes(age) || age === boundedCurrentAge || age === boundedRetirementAge;
+    let milestoneLabel: string | undefined;
+
+    if (age === boundedCurrentAge) {
+      milestoneLabel = "Now";
+    } else if (age === boundedRetirementAge) {
+      milestoneLabel = "Retirement";
+    } else if (milestones.includes(age)) {
+      milestoneLabel = `Age ${age}`;
+    }
+
+    points.push({
+      age,
+      goldPercentage,
+      btcPercentage,
+      isMilestone,
+      milestoneLabel,
+    });
+  }
+
+  return points;
+}
+
+/**
+ * Get key milestones from retirement projection data
+ */
+export function getRetirementMilestones(
+  projectionData: RetirementProjectionPoint[]
+): RetirementProjectionPoint[] {
+  return projectionData.filter(point => point.isMilestone);
+}
+
 // Historical performance calculation for Mattison strategy
 export interface HistoricalPerformance {
   startYear: number;

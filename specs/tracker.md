@@ -157,24 +157,24 @@ This document tracks the implementation progress of features defined in [specs/p
 ## Phase 3: Educational Tools
 
 ### Feature 3.1: Retirement Age Projection
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Design projection UI mockup | ⬜ | Input fields + timeline chart |
-| Add retirement age input field | ⬜ | Target age selector |
-| Calculate allocation at each age | ⬜ | Apply formula year by year |
-| Create timeline visualization | ⬜ | Area chart or stepped line |
-| Add milestone markers | ⬜ | Key ages highlighted |
-| Write educational copy | ⬜ | Explain why allocation shifts |
-| Optional: Add projected values | ⬜ | Based on historical returns |
+| Design projection UI mockup | ✅ | Collapsible card with timeline chart |
+| Add retirement age input field | ✅ | Number input with validation |
+| Calculate allocation at each age | ✅ | generateRetirementProjection function |
+| Create timeline visualization | ✅ | Stacked area chart with Gold/BTC |
+| Add milestone markers | ✅ | Reference dots at key ages (30, 40, 50, 60, 65, 70) |
+| Write educational copy | ✅ | Explains why allocation shifts with age |
+| Optional: Add projected values | ⬜ | Skipped for v1 (based on historical returns) |
 
-**Files to modify:**
-- New: `src/components/RetirementProjection.tsx`
-- `src/lib/allocation.ts`
-- `src/app/page.tsx`
+**Files modified:**
+- New: `src/components/RetirementProjection.tsx` - Main component with chart and milestones
+- `src/lib/allocation.ts` - Added generateRetirementProjection, getRetirementMilestones, RetirementProjectionPoint
+- `src/app/page.tsx` - Integrated RetirementProjection component
 
-**Dependencies:** None (can start independently)
+**Dependencies:** None
 
 ---
 
@@ -282,9 +282,9 @@ This document tracks the implementation progress of features defined in [specs/p
 |-------|----------|--------|----------|
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
 | Phase 2 | Data & Flexibility | 🟢 Complete | 3/3 |
-| Phase 3 | Educational Tools | 🔴 Not Started | 0/3 |
+| Phase 3 | Educational Tools | 🟡 In Progress | 1/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **5/10** |
+| **Total** | **10 Features** | | **6/10** |
 
 ---
 
@@ -337,3 +337,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Feature 2.1 (Sub-Allocation Selector) completed - Gold/Crypto bucket subdivision with sliders, validation, share card integration |
 | 2026-01-14 | Feature 2.2 (Table with Sparklines) completed - Sparkline component, AllocationTable with 5Y trends, chart/table toggle, mobile responsive |
 | 2026-01-14 | Feature 2.3 (Enhanced Share Cards) completed - Premium dark theme, asset logos, historical performance badge (+X% since 2015), improved sub-allocation display |
+| 2026-01-14 | Feature 3.1 (Retirement Age Projection) completed - Timeline chart showing allocation shift from current age to retirement, milestone markers, educational context |

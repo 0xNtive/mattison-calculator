@@ -7,6 +7,7 @@ import ShareButtons from "@/components/ShareButtons";
 import LearnMore from "@/components/LearnMore";
 import HistoricalCalculator from "@/components/HistoricalCalculator";
 import { AllocationResult, SubAllocations, DEFAULT_SUB_ALLOCATIONS } from "@/lib/allocation";
+import RetirementProjection from "@/components/RetirementProjection";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -72,12 +73,15 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right column - Chart */}
-            <div className="lg:col-span-8">
+            {/* Right column - Chart and Tools */}
+            <div className="lg:col-span-8 space-y-4">
               <HistoricalCalculator
                 goldPercentage={allocation.goldPercentage}
                 btcPercentage={allocation.btcPercentage}
               />
+
+              {/* Retirement Projection */}
+              <RetirementProjection currentAge={age} />
             </div>
 
             {/* Learn more - mobile only below chart */}
