@@ -11,6 +11,7 @@ import RetirementProjection from "@/components/RetirementProjection";
 import RebalancingSimulator from "@/components/RebalancingSimulator";
 import StrategyComparison from "@/components/StrategyComparison";
 import ThemeToggle from "@/components/ThemeToggle";
+import PDFExport from "@/components/PDFExport";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -64,15 +65,26 @@ export default function Home() {
                 onSubAllocationsChange={handleSubAllocationsChange}
               />
 
-              {/* Share buttons */}
+              {/* Share buttons and PDF Export */}
               <div className="premium-card rounded-xl p-4">
                 <p className="text-xs text-[var(--foreground-muted)] text-center mb-3">Share your allocation</p>
-                <ShareButtons
-                  age={age}
-                  goldPercentage={allocation.goldPercentage}
-                  btcPercentage={allocation.btcPercentage}
-                  subAllocations={subAllocations}
-                />
+                <div className="flex items-center justify-center gap-3">
+                  <ShareButtons
+                    age={age}
+                    goldPercentage={allocation.goldPercentage}
+                    btcPercentage={allocation.btcPercentage}
+                    subAllocations={subAllocations}
+                  />
+                  <PDFExport
+                    age={age}
+                    goldPercentage={allocation.goldPercentage}
+                    btcPercentage={allocation.btcPercentage}
+                    goldAmount={allocation.goldAmount}
+                    btcAmount={allocation.btcAmount}
+                    portfolioValue={allocation.goldAmount && allocation.btcAmount ? allocation.goldAmount + allocation.btcAmount : undefined}
+                    subAllocations={subAllocations}
+                  />
+                </div>
               </div>
 
               {/* Learn more - desktop only in left column */}
