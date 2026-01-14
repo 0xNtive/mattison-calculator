@@ -56,27 +56,27 @@ export default function HistoricalCalculator({
     : 0;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
+    <div className="premium-card rounded-xl h-full flex flex-col">
       {/* Header with inline inputs */}
-      <div className="p-4 border-b border-gray-100">
+      <div className="p-4 border-b border-[var(--card-border)]">
         <div className="flex flex-wrap items-center gap-3">
-          <h2 className="text-lg font-semibold text-gray-900">Historical Performance</h2>
+          <h2 className="text-lg font-semibold text-white">Historical Performance</h2>
           <div className="flex items-center gap-2 ml-auto">
             <div className="relative">
-              <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">$</span>
+              <span className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[var(--neutral)] text-xs">$</span>
               <input
                 type="text"
                 value={investmentAmount}
                 onChange={(e) => setInvestmentAmount(formatInput(e.target.value))}
-                className="w-24 pl-5 pr-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="premium-input w-24 pl-5 pr-2 py-1.5 text-sm rounded-lg"
                 placeholder="10,000"
               />
             </div>
-            <span className="text-xs text-gray-400">from</span>
+            <span className="text-xs text-[var(--neutral)]">from</span>
             <select
               value={startYear}
               onChange={(e) => setStartYear(parseInt(e.target.value, 10))}
-              className="px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
+              className="premium-input px-2 py-1.5 text-sm rounded-lg cursor-pointer"
             >
               {years.map((year) => (
                 <option key={year} value={year}>{year}</option>
@@ -95,24 +95,27 @@ export default function HistoricalCalculator({
 
       {/* Results bar */}
       {finalData && (
-        <div className="grid grid-cols-2 divide-x divide-gray-100 border-t border-gray-100">
-          <div className="p-3 bg-gradient-to-r from-orange-50 to-transparent">
-            <div className="flex items-baseline justify-between">
-              <span className="text-xs text-gray-500">Mattison</span>
-              <span className={`text-sm font-semibold ${mattisonReturn >= 0 ? "text-green-600" : "text-red-600"}`}>
-                {mattisonReturn >= 0 ? "+" : ""}{mattisonReturn.toFixed(0)}%
-              </span>
+        <div className="grid grid-cols-2 divide-x divide-[var(--card-border)] border-t border-[var(--card-border)]">
+          <div className="p-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(247,147,26,0.1)] to-transparent" />
+            <div className="relative">
+              <div className="flex items-baseline justify-between">
+                <span className="text-xs text-[var(--foreground-muted)]">Mattison</span>
+                <span className={`text-sm font-bold ${mattisonReturn >= 0 ? "text-[var(--accent-success)] glow-success" : "text-[var(--accent-danger)] glow-danger"}`}>
+                  {mattisonReturn >= 0 ? "+" : ""}{mattisonReturn.toFixed(0)}%
+                </span>
+              </div>
+              <p className="text-2xl font-bold text-white mt-1 number-large">{formatCurrency(finalData.mattisonValue)}</p>
             </div>
-            <p className="text-xl font-bold text-gray-900">{formatCurrency(finalData.mattisonValue)}</p>
           </div>
-          <div className="p-3">
+          <div className="p-4">
             <div className="flex items-baseline justify-between">
-              <span className="text-xs text-gray-500">S&P 500</span>
-              <span className={`text-sm font-semibold ${sp500Return >= 0 ? "text-green-600" : "text-red-600"}`}>
+              <span className="text-xs text-[var(--foreground-muted)]">S&P 500</span>
+              <span className={`text-sm font-bold ${sp500Return >= 0 ? "text-[var(--accent-success)]" : "text-[var(--accent-danger)]"}`}>
                 {sp500Return >= 0 ? "+" : ""}{sp500Return.toFixed(0)}%
               </span>
             </div>
-            <p className="text-xl font-bold text-gray-900">{formatCurrency(finalData.sp500Value)}</p>
+            <p className="text-2xl font-bold text-white mt-1 number-large">{formatCurrency(finalData.sp500Value)}</p>
           </div>
         </div>
       )}

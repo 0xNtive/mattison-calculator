@@ -52,27 +52,31 @@ This document tracks the implementation progress of features defined in [specs/p
 ---
 
 ### Feature 1.2: Visual Overhaul - Premium Aesthetic
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Define enhanced color palette in CSS | ⬜ | Update globals.css variables |
-| Create gradient utility classes | ⬜ | Tailwind config or CSS |
-| Redesign allocation cards with depth | ⬜ | Shadows, borders, glass effect |
-| Add glow effects to key numbers | ⬜ | CSS text-shadow or SVG filter |
-| Improve typography hierarchy | ⬜ | Font weights, sizes |
-| Add smooth transitions/animations | ⬜ | CSS transitions, Framer Motion optional |
-| Update bar chart with richer gradients | ⬜ | AllocationDisplay component |
-| Redesign input fields (age, portfolio) | ⬜ | Premium input styling |
-| Update buttons with premium feel | ⬜ | Share, toggle buttons |
-| Mobile responsive adjustments | ⬜ | Ensure premium feel on mobile |
+| Define enhanced color palette in CSS | ✅ | Dark premium palette with gold/bitcoin accents |
+| Create gradient utility classes | ✅ | allocation-bar-*, gradient-*, glass-* classes |
+| Redesign allocation cards with depth | ✅ | Glassmorphism with backdrop blur and glow |
+| Add glow effects to key numbers | ✅ | glow-gold-subtle, glow-bitcoin-subtle, glow-success |
+| Improve typography hierarchy | ✅ | number-large, number-display classes |
+| Add smooth transitions/animations | ✅ | 700ms transitions, pulse-glow animation |
+| Update bar chart with richer gradients | ✅ | SVG glow filter, enhanced gradient fills |
+| Redesign input fields (age, portfolio) | ✅ | premium-input class with focus states |
+| Update buttons with premium feel | ✅ | premium-button, premium-button-primary classes |
+| Mobile responsive adjustments | ✅ | Verified build passes |
 
-**Files to modify:**
-- `src/app/globals.css`
-- `src/components/AllocationDisplay.tsx`
-- `src/components/AllocationCalculator.tsx`
-- `src/components/ShareButtons.tsx`
-- `tailwind.config.ts` (if customizing)
+**Files modified:**
+- `src/app/globals.css` - Complete dark theme with glassmorphism
+- `src/app/page.tsx` - Updated header and layout styling
+- `src/components/AllocationDisplay.tsx` - Glowing cards with premium styling
+- `src/components/AllocationCalculator.tsx` - Premium inputs and toggle
+- `src/components/ShareButtons.tsx` - Premium button styling
+- `src/components/HistoricalCalculator.tsx` - Dark theme chart container
+- `src/components/PerformanceChart.tsx` - Dark chart with glow effect
+- `src/components/LearnMore.tsx` - Premium accordion styling
+- `src/components/Disclaimer.tsx` - Dark theme banner
 
 ---
 
@@ -278,11 +282,11 @@ This document tracks the implementation progress of features defined in [specs/p
 
 | Phase | Features | Status | Progress |
 |-------|----------|--------|----------|
-| Phase 1 | Visual Foundation | 🟡 In Progress | 1/2 |
+| Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
 | Phase 2 | Data & Flexibility | 🔴 Not Started | 0/3 |
 | Phase 3 | Educational Tools | 🔴 Not Started | 0/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **1/10** |
+| **Total** | **10 Features** | | **2/10** |
 
 ---
 
@@ -331,3 +335,4 @@ This document tracks the implementation progress of features defined in [specs/p
 |------|--------|
 | 2026-01-14 | Initial tracker created with 10 features across 4 phases |
 | 2026-01-14 | Feature 1.1 (Asset Logos & Icons) completed - added Bitcoin, Gold, ETH, Silver, Platinum icons |
+| 2026-01-14 | Feature 1.2 (Visual Overhaul) completed - premium dark theme with glassmorphism, glow effects, enhanced gradients |

@@ -24,18 +24,18 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       {/* Disclaimer banner */}
       <Disclaimer />
 
-      <main className="flex-1 py-4 md:py-6">
+      <main className="flex-1 py-4 md:py-8">
         <div className="max-w-7xl mx-auto px-4">
           {/* Header */}
-          <header className="text-center mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <header className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
               Mattison Allocation Calculator
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-[var(--foreground-muted)] text-sm mt-2">
               Age-based Gold &amp; Bitcoin portfolio allocation
             </p>
           </header>
@@ -50,8 +50,8 @@ export default function Home() {
               />
 
               {/* Share buttons */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-                <p className="text-xs text-gray-500 text-center mb-3">Share your allocation</p>
+              <div className="premium-card rounded-xl p-4">
+                <p className="text-xs text-[var(--foreground-muted)] text-center mb-3">Share your allocation</p>
                 <ShareButtons
                   age={age}
                   goldPercentage={allocation.goldPercentage}
@@ -80,7 +80,7 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <footer className="text-center text-gray-400 text-xs mt-8 pt-4 border-t border-gray-200">
+          <footer className="text-center text-[var(--neutral)] text-xs mt-8 pt-4 border-t border-[var(--card-border)]">
             <p>
               For educational purposes only. Past performance does not guarantee future results.
             </p>

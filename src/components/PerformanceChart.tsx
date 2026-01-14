@@ -33,11 +33,12 @@ const CustomTooltip = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg border border-gray-200 text-xs">
-        <p className="font-semibold text-gray-900 mb-1">{label}</p>
+      <div className="premium-card px-4 py-3 rounded-xl text-xs">
+        <p className="font-semibold text-white mb-2">{label}</p>
         {payload.map((entry, index) => (
-          <p key={index} style={{ color: entry.color }}>
-            {entry.name}: {formatCurrency(entry.value)}
+          <p key={index} className="flex items-center justify-between gap-4" style={{ color: entry.color }}>
+            <span className="text-[var(--foreground-muted)]">{entry.name}:</span>
+            <span className="font-semibold">{formatCurrency(entry.value)}</span>
           </p>
         ))}
       </div>
@@ -49,7 +50,7 @@ const CustomTooltip = ({
 export default function PerformanceChart({ data }: PerformanceChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+      <div className="h-full flex items-center justify-center text-[var(--neutral)] text-sm">
         Enter investment details to see chart
       </div>
     );
@@ -68,24 +69,32 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
           <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="mattisonGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#F7931A" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#F7931A" stopOpacity={0} />
+                <stop offset="0%" stopColor="#F7931A" stopOpacity={0.4} />
+                <stop offset="50%" stopColor="#F7931A" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="#F7931A" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="sp500Gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#6B7280" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#6B7280" stopOpacity={0} />
+                <stop offset="0%" stopColor="#71717a" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#71717a" stopOpacity={0} />
               </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
             <XAxis
               dataKey="year"
-              tick={{ fill: "#9CA3AF", fontSize: 11 }}
+              tick={{ fill: "#71717a", fontSize: 11 }}
               tickLine={false}
-              axisLine={{ stroke: "#E5E7EB" }}
+              axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
             />
             <YAxis
               tickFormatter={formatYAxis}
-              tick={{ fill: "#9CA3AF", fontSize: 11 }}
+              tick={{ fill: "#71717a", fontSize: 11 }}
               tickLine={false}
               axisLine={false}
               width={55}
@@ -96,14 +105,15 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
               dataKey="mattisonValue"
               name="Mattison"
               stroke="#F7931A"
-              strokeWidth={2}
+              strokeWidth={2.5}
               fill="url(#mattisonGradient)"
+              filter="url(#glow)"
             />
             <Area
               type="monotone"
               dataKey="sp500Value"
               name="S&P 500"
-              stroke="#6B7280"
+              stroke="#71717a"
               strokeWidth={1.5}
               fill="url(#sp500Gradient)"
             />
@@ -111,17 +121,17 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
         </ResponsiveContainer>
       </div>
       {/* Custom Legend with Icons */}
-      <div className="flex justify-center gap-6 pt-2">
-        <div className="flex items-center gap-1.5">
+      <div className="flex justify-center gap-6 pt-3">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             <BitcoinIcon size={14} />
             <GoldIcon size={14} />
           </div>
-          <span className="text-xs text-gray-600">Mattison</span>
+          <span className="text-xs text-[var(--foreground-muted)]">Mattison</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-gray-500" />
-          <span className="text-xs text-gray-600">S&P 500</span>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-[var(--neutral)]" />
+          <span className="text-xs text-[var(--foreground-muted)]">S&P 500</span>
         </div>
       </div>
     </div>

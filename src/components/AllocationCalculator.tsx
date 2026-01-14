@@ -78,13 +78,13 @@ export default function AllocationCalculator({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Allocation</h2>
+    <div className="premium-card rounded-xl p-5">
+      <h2 className="text-lg font-semibold text-white mb-5">Your Allocation</h2>
 
       {/* Inputs row */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-2 gap-4 mb-5">
         <div>
-          <label htmlFor="age" className="block text-xs font-medium text-gray-500 mb-1">
+          <label htmlFor="age" className="block text-xs font-medium text-[var(--foreground-muted)] mb-1.5">
             Age
           </label>
           <input
@@ -94,27 +94,27 @@ export default function AllocationCalculator({
             onChange={(e) => handleAgeChange(e.target.value)}
             min={MIN_AGE}
             max={MAX_AGE}
-            className={`w-full px-3 py-2 text-base border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+            className={`premium-input w-full px-3 py-2.5 text-base rounded-lg transition-all ${
               ageError
-                ? "border-red-300 focus:ring-red-200"
-                : "border-gray-200 focus:ring-blue-200"
+                ? "border-[var(--accent-danger)] focus:ring-[var(--accent-danger-glow)]"
+                : ""
             }`}
           />
-          {ageError && <p className="mt-1 text-xs text-red-500">{ageError}</p>}
+          {ageError && <p className="mt-1 text-xs text-[var(--accent-danger)]">{ageError}</p>}
         </div>
 
         <div>
-          <label htmlFor="portfolio" className="block text-xs font-medium text-gray-500 mb-1">
-            Portfolio <span className="text-gray-400">(opt.)</span>
+          <label htmlFor="portfolio" className="block text-xs font-medium text-[var(--foreground-muted)] mb-1.5">
+            Portfolio <span className="text-[var(--neutral)]">(opt.)</span>
           </label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">$</span>
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--neutral)] text-sm">$</span>
             <input
               type="text"
               id="portfolio"
               value={portfolioValue}
               onChange={(e) => setPortfolioValue(formatPortfolioInput(e.target.value))}
-              className="w-full pl-7 pr-3 py-2 text-base border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="premium-input w-full pl-7 pr-3 py-2.5 text-base rounded-lg"
               placeholder="10,000"
             />
           </div>
@@ -122,20 +122,24 @@ export default function AllocationCalculator({
       </div>
 
       {/* View toggle */}
-      <div className="flex justify-center mb-4">
-        <div className="inline-flex rounded-lg bg-gray-100 p-0.5 text-xs">
+      <div className="flex justify-center mb-5">
+        <div className="inline-flex rounded-lg bg-[rgba(255,255,255,0.03)] p-1 text-xs border border-[var(--card-border)]">
           <button
             onClick={() => setIsDetailed(false)}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
-              !isDetailed ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+            className={`px-4 py-2 rounded-md font-medium transition-all ${
+              !isDetailed
+                ? "bg-[var(--bitcoin)] text-white shadow-lg"
+                : "text-[var(--foreground-muted)] hover:text-white"
             }`}
           >
             Simple
           </button>
           <button
             onClick={() => setIsDetailed(true)}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
-              isDetailed ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+            className={`px-4 py-2 rounded-md font-medium transition-all ${
+              isDetailed
+                ? "bg-[var(--bitcoin)] text-white shadow-lg"
+                : "text-[var(--foreground-muted)] hover:text-white"
             }`}
           >
             Detailed
@@ -145,10 +149,10 @@ export default function AllocationCalculator({
 
       {/* Core percentage slider (only in detailed view) */}
       {isDetailed && (
-        <div className="mb-4 px-1">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <span>Core: {corePercentage}%</span>
-            <span>35-60%</span>
+        <div className="mb-5 px-1">
+          <div className="flex justify-between text-xs text-[var(--foreground-muted)] mb-2">
+            <span>Core: <span className="text-white font-semibold">{corePercentage}%</span></span>
+            <span className="text-[var(--neutral)]">35-60%</span>
           </div>
           <input
             type="range"
@@ -156,7 +160,10 @@ export default function AllocationCalculator({
             max={60}
             value={corePercentage}
             onChange={(e) => setCorePercentage(parseInt(e.target.value, 10))}
-            className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, var(--bitcoin) 0%, var(--bitcoin) ${((corePercentage - 35) / 25) * 100}%, rgba(255,255,255,0.1) ${((corePercentage - 35) / 25) * 100}%, rgba(255,255,255,0.1) 100%)`
+            }}
           />
         </div>
       )}
@@ -165,7 +172,7 @@ export default function AllocationCalculator({
       {isValidAge(age) && <AllocationDisplay allocation={allocation} isDetailed={isDetailed} />}
 
       {/* Formula hint */}
-      <p className="text-xs text-gray-400 mt-4 text-center">
+      <p className="text-xs text-[var(--neutral)] mt-5 text-center">
         Gold% = Age + 15 &nbsp;|&nbsp; BTC% = 100 - Gold%
       </p>
     </div>
