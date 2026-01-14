@@ -111,25 +111,24 @@ This document tracks the implementation progress of features defined in [specs/p
 ---
 
 ### Feature 2.2: Table with Sparklines Display
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Create sparkline component | ⬜ | Use Recharts LineChart minimal |
-| Design table layout | ⬜ | Asset, %, Amount, Sparkline columns |
-| Build AllocationTable component | ⬜ | New component |
-| Generate sparkline data from historical | ⬜ | Last 5 years trend |
-| Add view toggle (chart vs table) | ⬜ | User preference |
-| Mobile responsive (cards on mobile) | ⬜ | Collapse to cards <768px |
-| Style table with premium aesthetic | ⬜ | Match Phase 1 design |
+| Create sparkline component | ✅ | Recharts LineChart with responsive container |
+| Design table layout | ✅ | Asset, %, Amount, 5Y Trend columns |
+| Build AllocationTable component | ✅ | Full table with sub-allocation support |
+| Generate sparkline data from historical | ✅ | Last 5 years normalized price trend |
+| Add view toggle (chart vs table) | ✅ | Toggle buttons in AllocationDisplay |
+| Mobile responsive (cards on mobile) | ✅ | Cards on mobile, table on desktop (md breakpoint) |
+| Style table with premium aesthetic | ✅ | Glassmorphism, premium styling |
 
-**Files to modify:**
-- New: `src/components/AllocationTable.tsx`
-- New: `src/components/Sparkline.tsx`
-- `src/components/AllocationDisplay.tsx` (add toggle)
-- `src/app/page.tsx`
+**Files modified:**
+- New: `src/components/AllocationTable.tsx` - Table with sparklines
+- New: `src/components/Sparkline.tsx` - Minimal Recharts line chart
+- `src/components/AllocationDisplay.tsx` - Added view toggle
 
-**Dependencies:** Phase 1 (visual styling)
+**Dependencies:** Phase 1 (visual styling) ✅
 
 ---
 
@@ -283,10 +282,10 @@ This document tracks the implementation progress of features defined in [specs/p
 | Phase | Features | Status | Progress |
 |-------|----------|--------|----------|
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
-| Phase 2 | Data & Flexibility | 🟡 In Progress | 1/3 |
+| Phase 2 | Data & Flexibility | 🟡 In Progress | 2/3 |
 | Phase 3 | Educational Tools | 🔴 Not Started | 0/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **3/10** |
+| **Total** | **10 Features** | | **4/10** |
 
 ---
 
@@ -337,3 +336,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Feature 1.1 (Asset Logos & Icons) completed - added Bitcoin, Gold, ETH, Silver, Platinum icons |
 | 2026-01-14 | Feature 1.2 (Visual Overhaul) completed - premium dark theme with glassmorphism, glow effects, enhanced gradients |
 | 2026-01-14 | Feature 2.1 (Sub-Allocation Selector) completed - Gold/Crypto bucket subdivision with sliders, validation, share card integration |
+| 2026-01-14 | Feature 2.2 (Table with Sparklines) completed - Sparkline component, AllocationTable with 5Y trends, chart/table toggle, mobile responsive |

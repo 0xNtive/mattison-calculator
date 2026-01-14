@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   AllocationResult,
   DetailedAllocation,
@@ -9,6 +10,9 @@ import {
   formatPercentage,
 } from "@/lib/allocation";
 import { BitcoinIcon, GoldIcon, EthereumIcon, SilverIcon, PlatinumIcon } from "@/components/icons";
+import AllocationTable from "./AllocationTable";
+
+type ViewMode = "chart" | "table";
 
 interface AllocationDisplayProps {
   allocation: AllocationResult | DetailedAllocation | AllocationWithSubs;
@@ -43,9 +47,54 @@ function hasCustomSubAllocations(subs?: SubAllocations): boolean {
 
 export default function AllocationDisplay({ allocation, isDetailed, subAllocations }: AllocationDisplayProps) {
   const { goldPercentage, btcPercentage, goldAmount, btcAmount } = allocation;
+  const [viewMode, setViewMode] = useState<ViewMode>("chart");
 
   return (
     <div className="space-y-5">
+      {/* View toggle */}
+      <div className="flex items-center justify-center gap-1 p-1 rounded-lg glass">
+        <button
+          onClick={() => setViewMode("chart")}
+          className={`flex-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+            viewMode === "chart"
+              ? "bg-[rgba(255,255,255,0.15)] text-white"
+              : "text-[var(--foreground-muted)] hover:text-white"
+          }`}
+        >
+          <span className="flex items-center justify-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="7" height="18" rx="1" />
+              <rect x="14" y="9" width="7" height="12" rx="1" />
+            </svg>
+            Chart
+          </span>
+        </button>
+        <button
+          onClick={() => setViewMode("table")}
+          className={`flex-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+            viewMode === "table"
+              ? "bg-[rgba(255,255,255,0.15)] text-white"
+              : "text-[var(--foreground-muted)] hover:text-white"
+          }`}
+        >
+          <span className="flex items-center justify-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 3h18v18H3z" />
+              <path d="M3 9h18M3 15h18M9 3v18" />
+            </svg>
+            Table
+          </span>
+        </button>
+      </div>
+
+      {/* Table view */}
+      {viewMode === "table" && (
+        <AllocationTable allocation={allocation} subAllocations={subAllocations} />
+      )}
+
+      {/* Chart view (original) */}
+      {viewMode === "chart" && (
+        <>
       {/* Visual bar */}
       <div className="h-12 rounded-xl overflow-hidden flex bg-[rgba(0,0,0,0.3)] p-1">
         <div
@@ -221,6 +270,8 @@ export default function AllocationDisplay({ allocation, isDetailed, subAllocatio
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );
