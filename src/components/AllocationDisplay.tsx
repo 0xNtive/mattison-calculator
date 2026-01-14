@@ -1,18 +1,47 @@
 "use client";
 
-import { AllocationResult, DetailedAllocation, formatCurrency, formatPercentage } from "@/lib/allocation";
-import { BitcoinIcon, GoldIcon } from "@/components/icons";
+import {
+  AllocationResult,
+  DetailedAllocation,
+  SubAllocations,
+  AllocationWithSubs,
+  formatCurrency,
+  formatPercentage,
+} from "@/lib/allocation";
+import { BitcoinIcon, GoldIcon, EthereumIcon, SilverIcon, PlatinumIcon } from "@/components/icons";
 
 interface AllocationDisplayProps {
-  allocation: AllocationResult | DetailedAllocation;
+  allocation: AllocationResult | DetailedAllocation | AllocationWithSubs;
   isDetailed: boolean;
+  subAllocations?: SubAllocations;
 }
 
-function isDetailedAllocation(allocation: AllocationResult | DetailedAllocation): allocation is DetailedAllocation {
+function isDetailedAllocation(
+  allocation: AllocationResult | DetailedAllocation | AllocationWithSubs
+): allocation is DetailedAllocation {
   return "corePercentage" in allocation;
 }
 
-export default function AllocationDisplay({ allocation, isDetailed }: AllocationDisplayProps) {
+function isAllocationWithSubs(
+  allocation: AllocationResult | DetailedAllocation | AllocationWithSubs
+): allocation is AllocationWithSubs {
+  return "subAllocations" in allocation;
+}
+
+function hasCustomSubAllocations(subs?: SubAllocations): boolean {
+  if (!subs) return false;
+  return (
+    subs.gold.physicalGold !== 100 ||
+    subs.gold.goldEtf !== 0 ||
+    subs.gold.silver !== 0 ||
+    subs.gold.platinum !== 0 ||
+    subs.crypto.bitcoin !== 100 ||
+    subs.crypto.ethereum !== 0 ||
+    subs.crypto.other !== 0
+  );
+}
+
+export default function AllocationDisplay({ allocation, isDetailed, subAllocations }: AllocationDisplayProps) {
   const { goldPercentage, btcPercentage, goldAmount, btcAmount } = allocation;
 
   return (
@@ -96,6 +125,98 @@ export default function AllocationDisplay({ allocation, isDetailed }: Allocation
               <p className="text-xl font-bold text-white mt-1">{formatPercentage(allocation.satellitePercentage)}</p>
               {allocation.satelliteAmount !== undefined && (
                 <p className="text-[var(--neutral)] mt-1 number-display">{formatCurrency(allocation.satelliteAmount)}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sub-allocation breakdown (when customized and amounts available) */}
+      {!isDetailed && hasCustomSubAllocations(subAllocations) && isAllocationWithSubs(allocation) && allocation.subAmounts && (
+        <div className="pt-4 border-t border-[var(--card-border)]">
+          <p className="text-xs font-medium text-[var(--foreground-muted)] mb-3">Sub-Allocation Breakdown</p>
+          <div className="grid grid-cols-2 gap-3">
+            {/* Gold sub-allocations */}
+            <div className="space-y-1.5">
+              {subAllocations!.gold.physicalGold > 0 && allocation.subAmounts.physicalGoldAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <GoldIcon size={12} />
+                    Physical Gold
+                  </span>
+                  <span className="text-[var(--gold)] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.physicalGoldAmount)}
+                  </span>
+                </div>
+              )}
+              {subAllocations!.gold.goldEtf > 0 && allocation.subAmounts.goldEtfAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <GoldIcon size={12} />
+                    Gold ETFs
+                  </span>
+                  <span className="text-[var(--gold)] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.goldEtfAmount)}
+                  </span>
+                </div>
+              )}
+              {subAllocations!.gold.silver > 0 && allocation.subAmounts.silverAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <SilverIcon size={12} />
+                    Silver
+                  </span>
+                  <span className="text-[#C0C0C0] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.silverAmount)}
+                  </span>
+                </div>
+              )}
+              {subAllocations!.gold.platinum > 0 && allocation.subAmounts.platinumAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <PlatinumIcon size={12} />
+                    Platinum
+                  </span>
+                  <span className="text-[#E5E4E2] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.platinumAmount)}
+                  </span>
+                </div>
+              )}
+            </div>
+            {/* Crypto sub-allocations */}
+            <div className="space-y-1.5">
+              {subAllocations!.crypto.bitcoin > 0 && allocation.subAmounts.bitcoinAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <BitcoinIcon size={12} />
+                    Bitcoin
+                  </span>
+                  <span className="text-[var(--bitcoin)] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.bitcoinAmount)}
+                  </span>
+                </div>
+              )}
+              {subAllocations!.crypto.ethereum > 0 && allocation.subAmounts.ethereumAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <EthereumIcon size={12} />
+                    Ethereum
+                  </span>
+                  <span className="text-[#627EEA] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.ethereumAmount)}
+                  </span>
+                </div>
+              )}
+              {subAllocations!.crypto.other > 0 && allocation.subAmounts.otherCryptoAmount && (
+                <div className="flex items-center justify-between text-xs p-2 rounded-lg glass">
+                  <span className="flex items-center gap-1.5 text-[var(--foreground-muted)]">
+                    <span className="w-3 h-3 rounded-full bg-[#8B5CF6]" />
+                    Other Crypto
+                  </span>
+                  <span className="text-[#8B5CF6] font-medium number-display">
+                    {formatCurrency(allocation.subAmounts.otherCryptoAmount)}
+                  </span>
+                </div>
               )}
             </div>
           </div>

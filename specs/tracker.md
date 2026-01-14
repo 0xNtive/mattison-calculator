@@ -83,30 +83,30 @@ This document tracks the implementation progress of features defined in [specs/p
 ## Phase 2: Data & Flexibility
 
 ### Feature 2.1: Sub-Allocation Selector
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Define sub-allocation data types | ⬜ | TypeScript interfaces |
-| Create sub-allocation state management | ⬜ | useState in page.tsx |
-| Build Gold sub-allocation UI | ⬜ | Sliders/inputs for Gold, Silver, Platinum |
-| Build BTC sub-allocation UI | ⬜ | Sliders/inputs for BTC, ETH, Other |
-| Add validation (sum to 100%) | ⬜ | Real-time validation |
-| Update AllocationDisplay for sub-items | ⬜ | Show breakdown |
-| Update calculation logic | ⬜ | allocation.ts updates |
-| Integrate sub-allocations in share card | ⬜ | Show in shareable image |
-| Add historical data for new assets | ⬜ | ETH, Silver prices if available |
+| Define sub-allocation data types | ✅ | GoldSubAllocation, CryptoSubAllocation, SubAllocations interfaces |
+| Create sub-allocation state management | ✅ | useState in page.tsx with callbacks |
+| Build Gold sub-allocation UI | ✅ | Sliders for Physical Gold, Gold ETFs, Silver, Platinum |
+| Build BTC sub-allocation UI | ✅ | Sliders for Bitcoin, Ethereum, Other Crypto |
+| Add validation (sum to 100%) | ✅ | Real-time validation with error display |
+| Update AllocationDisplay for sub-items | ✅ | Shows breakdown when customized and amounts available |
+| Update calculation logic | ✅ | calculateAllocationWithSubs function added |
+| Integrate sub-allocations in share card | ✅ | Shows sub-allocation breakdown in share image |
+| Add historical data for new assets | ✅ | ETH (2016+), Silver, Platinum prices added |
 
-**Files to modify:**
-- `src/lib/allocation.ts`
-- `src/app/page.tsx`
-- `src/components/AllocationCalculator.tsx`
-- `src/components/AllocationDisplay.tsx`
-- `src/components/ShareButtons.tsx`
-- `src/data/historicalPrices.ts`
-- New: `src/components/SubAllocationSelector.tsx`
+**Files modified:**
+- `src/lib/allocation.ts` - Added sub-allocation types and calculation function
+- `src/app/page.tsx` - Added sub-allocation state management
+- `src/components/AllocationCalculator.tsx` - Integrated SubAllocationSelector
+- `src/components/AllocationDisplay.tsx` - Shows sub-allocation breakdown
+- `src/components/ShareButtons.tsx` - Displays sub-allocations in share card
+- `src/data/historicalPrices.ts` - Added ETH, Silver, Platinum historical data
+- New: `src/components/SubAllocationSelector.tsx` - Collapsible sub-allocation UI
 
-**Dependencies:** Phase 1 (icons needed for sub-assets)
+**Dependencies:** Phase 1 (icons needed for sub-assets) ✅
 
 ---
 
@@ -283,10 +283,10 @@ This document tracks the implementation progress of features defined in [specs/p
 | Phase | Features | Status | Progress |
 |-------|----------|--------|----------|
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
-| Phase 2 | Data & Flexibility | 🔴 Not Started | 0/3 |
+| Phase 2 | Data & Flexibility | 🟡 In Progress | 1/3 |
 | Phase 3 | Educational Tools | 🔴 Not Started | 0/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **2/10** |
+| **Total** | **10 Features** | | **3/10** |
 
 ---
 
@@ -336,3 +336,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Initial tracker created with 10 features across 4 phases |
 | 2026-01-14 | Feature 1.1 (Asset Logos & Icons) completed - added Bitcoin, Gold, ETH, Silver, Platinum icons |
 | 2026-01-14 | Feature 1.2 (Visual Overhaul) completed - premium dark theme with glassmorphism, glow effects, enhanced gradients |
+| 2026-01-14 | Feature 2.1 (Sub-Allocation Selector) completed - Gold/Crypto bucket subdivision with sliders, validation, share card integration |

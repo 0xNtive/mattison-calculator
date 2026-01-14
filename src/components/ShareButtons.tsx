@@ -2,19 +2,35 @@
 
 import { useRef, useState, useCallback } from "react";
 import { toPng } from "html-to-image";
-import { formatPercentage } from "@/lib/allocation";
+import { formatPercentage, SubAllocations } from "@/lib/allocation";
 
 interface ShareButtonsProps {
   age: number;
   goldPercentage: number;
   btcPercentage: number;
+  subAllocations?: SubAllocations;
+}
+
+function hasCustomSubAllocations(subs?: SubAllocations): boolean {
+  if (!subs) return false;
+  return (
+    subs.gold.physicalGold !== 100 ||
+    subs.gold.goldEtf !== 0 ||
+    subs.gold.silver !== 0 ||
+    subs.gold.platinum !== 0 ||
+    subs.crypto.bitcoin !== 100 ||
+    subs.crypto.ethereum !== 0 ||
+    subs.crypto.other !== 0
+  );
 }
 
 export default function ShareButtons({
   age,
   goldPercentage,
   btcPercentage,
+  subAllocations,
 }: ShareButtonsProps) {
+  const isCustomized = hasCustomSubAllocations(subAllocations);
   const cardRef = useRef<HTMLDivElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
@@ -137,7 +153,7 @@ export default function ShareButtons({
           <div style={{ fontSize: 24, color: "#6B7280", marginBottom: 50 }}>
             Age {age}
           </div>
-          <div style={{ display: "flex", gap: 60, marginBottom: 50 }}>
+          <div style={{ display: "flex", gap: 60, marginBottom: isCustomized ? 30 : 50 }}>
             <div style={{ textAlign: "center" }}>
               <div
                 style={{
@@ -216,6 +232,36 @@ export default function ShareButtons({
               <div style={{ fontSize: 28, fontWeight: 600, color: "#374151" }}>Bitcoin / Crypto</div>
             </div>
           </div>
+          {/* Sub-allocation breakdown */}
+          {isCustomized && subAllocations && (
+            <div style={{ display: "flex", gap: 40, marginBottom: 30, fontSize: 14, color: "#6B7280" }}>
+              <div style={{ textAlign: "left" }}>
+                {subAllocations.gold.physicalGold > 0 && subAllocations.gold.physicalGold < 100 && (
+                  <div>Physical Gold: {subAllocations.gold.physicalGold}%</div>
+                )}
+                {subAllocations.gold.goldEtf > 0 && (
+                  <div>Gold ETFs: {subAllocations.gold.goldEtf}%</div>
+                )}
+                {subAllocations.gold.silver > 0 && (
+                  <div>Silver: {subAllocations.gold.silver}%</div>
+                )}
+                {subAllocations.gold.platinum > 0 && (
+                  <div>Platinum: {subAllocations.gold.platinum}%</div>
+                )}
+              </div>
+              <div style={{ textAlign: "left" }}>
+                {subAllocations.crypto.bitcoin > 0 && subAllocations.crypto.bitcoin < 100 && (
+                  <div>Bitcoin: {subAllocations.crypto.bitcoin}%</div>
+                )}
+                {subAllocations.crypto.ethereum > 0 && (
+                  <div>Ethereum: {subAllocations.crypto.ethereum}%</div>
+                )}
+                {subAllocations.crypto.other > 0 && (
+                  <div>Other Crypto: {subAllocations.crypto.other}%</div>
+                )}
+              </div>
+            </div>
+          )}
           <div style={{ fontSize: 18, color: "#9CA3AF" }}>
             Calculate your allocation at mattison-calculator.vercel.app
           </div>

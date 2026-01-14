@@ -6,7 +6,7 @@ import AllocationCalculator from "@/components/AllocationCalculator";
 import ShareButtons from "@/components/ShareButtons";
 import LearnMore from "@/components/LearnMore";
 import HistoricalCalculator from "@/components/HistoricalCalculator";
-import { AllocationResult } from "@/lib/allocation";
+import { AllocationResult, SubAllocations, DEFAULT_SUB_ALLOCATIONS } from "@/lib/allocation";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -14,6 +14,7 @@ export default function Home() {
     btcPercentage: 50,
   });
   const [age, setAge] = useState(35);
+  const [subAllocations, setSubAllocations] = useState<SubAllocations>(DEFAULT_SUB_ALLOCATIONS);
 
   const handleAllocationChange = useCallback((newAllocation: AllocationResult) => {
     setAllocation(newAllocation);
@@ -21,6 +22,10 @@ export default function Home() {
 
   const handleAgeChange = useCallback((newAge: number) => {
     setAge(newAge);
+  }, []);
+
+  const handleSubAllocationsChange = useCallback((subs: SubAllocations) => {
+    setSubAllocations(subs);
   }, []);
 
   return (
@@ -47,6 +52,7 @@ export default function Home() {
               <AllocationCalculator
                 onAgeChange={handleAgeChange}
                 onAllocationChange={handleAllocationChange}
+                onSubAllocationsChange={handleSubAllocationsChange}
               />
 
               {/* Share buttons */}
@@ -56,6 +62,7 @@ export default function Home() {
                   age={age}
                   goldPercentage={allocation.goldPercentage}
                   btcPercentage={allocation.btcPercentage}
+                  subAllocations={subAllocations}
                 />
               </div>
 

@@ -4,28 +4,35 @@ import { useState, useCallback, useEffect } from "react";
 import {
   calculateAllocation,
   calculateDetailedAllocation,
+  calculateAllocationWithSubs,
   MIN_AGE,
   MAX_AGE,
   isValidAge,
   AllocationResult,
   DetailedAllocation,
+  SubAllocations,
+  DEFAULT_SUB_ALLOCATIONS,
 } from "@/lib/allocation";
 import AllocationDisplay from "./AllocationDisplay";
+import SubAllocationSelector from "./SubAllocationSelector";
 
 interface AllocationCalculatorProps {
   onAgeChange?: (age: number) => void;
   onAllocationChange?: (allocation: AllocationResult) => void;
+  onSubAllocationsChange?: (subs: SubAllocations) => void;
 }
 
 export default function AllocationCalculator({
   onAgeChange,
   onAllocationChange,
+  onSubAllocationsChange,
 }: AllocationCalculatorProps) {
   const [age, setAge] = useState<number>(35);
   const [portfolioValue, setPortfolioValue] = useState<string>("");
   const [isDetailed, setIsDetailed] = useState(false);
   const [corePercentage, setCorePercentage] = useState(50);
   const [ageError, setAgeError] = useState<string>("");
+  const [subAllocations, setSubAllocations] = useState<SubAllocations>(DEFAULT_SUB_ALLOCATIONS);
 
   const handleAgeChange = useCallback(
     (value: string) => {
@@ -61,7 +68,7 @@ export default function AllocationCalculator({
 
   const allocation: AllocationResult | DetailedAllocation = isDetailed
     ? calculateDetailedAllocation(age, portfolioValueNum, corePercentage)
-    : calculateAllocation(age, portfolioValueNum);
+    : calculateAllocationWithSubs(age, portfolioValueNum, subAllocations);
 
   useEffect(() => {
     if (onAllocationChange && isValidAge(age)) {
@@ -69,6 +76,14 @@ export default function AllocationCalculator({
       onAllocationChange(basicAllocation);
     }
   }, [age, onAllocationChange]);
+
+  const handleSubAllocationsChange = useCallback(
+    (subs: SubAllocations) => {
+      setSubAllocations(subs);
+      onSubAllocationsChange?.(subs);
+    },
+    [onSubAllocationsChange]
+  );
 
   const formatPortfolioInput = (value: string) => {
     const numericValue = value.replace(/[^0-9]/g, "");
@@ -169,7 +184,23 @@ export default function AllocationCalculator({
       )}
 
       {/* Allocation display */}
-      {isValidAge(age) && <AllocationDisplay allocation={allocation} isDetailed={isDetailed} />}
+      {isValidAge(age) && (
+        <AllocationDisplay
+          allocation={allocation}
+          isDetailed={isDetailed}
+          subAllocations={subAllocations}
+        />
+      )}
+
+      {/* Sub-allocation selector (only in simple view) */}
+      {!isDetailed && isValidAge(age) && (
+        <SubAllocationSelector
+          subAllocations={subAllocations}
+          onChange={handleSubAllocationsChange}
+          goldAmount={allocation.goldAmount}
+          btcAmount={allocation.btcAmount}
+        />
+      )}
 
       {/* Formula hint */}
       <p className="text-xs text-[var(--neutral)] mt-5 text-center">
