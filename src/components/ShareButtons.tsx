@@ -148,10 +148,33 @@ export default function ShareButtons({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  flexDirection: "column",
                   marginBottom: 20,
+                  position: "relative",
                 }}
               >
-                <span style={{ fontSize: 48, fontWeight: 700, color: "white" }}>
+                {/* Gold Bar Icon */}
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  style={{ position: "absolute", top: 25 }}
+                >
+                  <path
+                    d="M4 18L6 8H18L20 18H4Z"
+                    fill="#FFFFFF"
+                    stroke="#FFFFFF"
+                    strokeWidth="0.5"
+                  />
+                  <path
+                    d="M6 8L8 6H16L18 8H6Z"
+                    fill="#FFF9E6"
+                    stroke="#FFFFFF"
+                    strokeWidth="0.5"
+                  />
+                </svg>
+                <span style={{ fontSize: 48, fontWeight: 700, color: "white", marginTop: 30 }}>
                   {formatPercentage(goldPercentage)}
                 </span>
               </div>
@@ -167,10 +190,26 @@ export default function ShareButtons({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  flexDirection: "column",
                   marginBottom: 20,
+                  position: "relative",
                 }}
               >
-                <span style={{ fontSize: 48, fontWeight: 700, color: "white" }}>
+                {/* Bitcoin Icon */}
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  style={{ position: "absolute", top: 25 }}
+                >
+                  <circle cx="12" cy="12" r="12" fill="white" fillOpacity="0.2" />
+                  <path
+                    d="M16.662 10.661c.224-1.498-.917-2.303-2.478-2.84l.507-2.032-1.236-.308-.493 1.978c-.325-.081-.659-.158-.991-.233l.497-1.992-1.235-.308-.507 2.031c-.269-.061-.533-.122-.79-.185l.001-.006-1.704-.426-.329 1.32s.917.21.898.223c.501.125.591.456.576.719l-.577 2.315c.035.009.079.022.129.042l-.131-.033-.808 3.243c-.061.152-.217.38-.567.293.012.018-.898-.224-.898-.224l-.614 1.415 1.608.401c.299.075.592.153.881.227l-.512 2.056 1.234.308.507-2.033c.337.091.664.176.984.256l-.505 2.025 1.235.308.512-2.053c2.11.399 3.696.238 4.364-1.67.538-1.537-.027-2.424-1.137-3.002.809-.186 1.418-.718 1.58-1.816zm-2.828 3.965c-.382 1.537-2.968.706-3.806.497l.679-2.722c.838.209 3.527.623 3.127 2.225zm.383-3.986c-.349 1.398-2.502.688-3.2.514l.616-2.468c.698.174 2.948.499 2.584 1.954z"
+                    fill="white"
+                  />
+                </svg>
+                <span style={{ fontSize: 48, fontWeight: 700, color: "white", marginTop: 30 }}>
                   {formatPercentage(btcPercentage)}
                 </span>
               </div>

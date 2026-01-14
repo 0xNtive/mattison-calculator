@@ -7,10 +7,10 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { formatCurrency } from "@/lib/allocation";
+import { BitcoinIcon, GoldIcon } from "@/components/icons";
 
 interface ChartDataPoint {
   year: number;
@@ -62,56 +62,68 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-        <defs>
-          <linearGradient id="mattisonGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#F7931A" stopOpacity={0.3} />
-            <stop offset="95%" stopColor="#F7931A" stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="sp500Gradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#6B7280" stopOpacity={0.2} />
-            <stop offset="95%" stopColor="#6B7280" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
-        <XAxis
-          dataKey="year"
-          tick={{ fill: "#9CA3AF", fontSize: 11 }}
-          tickLine={false}
-          axisLine={{ stroke: "#E5E7EB" }}
-        />
-        <YAxis
-          tickFormatter={formatYAxis}
-          tick={{ fill: "#9CA3AF", fontSize: 11 }}
-          tickLine={false}
-          axisLine={false}
-          width={55}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend
-          wrapperStyle={{ paddingTop: "8px" }}
-          iconType="circle"
-          iconSize={8}
-          formatter={(value) => <span className="text-xs text-gray-600">{value}</span>}
-        />
-        <Area
-          type="monotone"
-          dataKey="mattisonValue"
-          name="Mattison"
-          stroke="#F7931A"
-          strokeWidth={2}
-          fill="url(#mattisonGradient)"
-        />
-        <Area
-          type="monotone"
-          dataKey="sp500Value"
-          name="S&P 500"
-          stroke="#6B7280"
-          strokeWidth={1.5}
-          fill="url(#sp500Gradient)"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <div className="h-full flex flex-col">
+      <div className="flex-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+            <defs>
+              <linearGradient id="mattisonGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#F7931A" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#F7931A" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="sp500Gradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#6B7280" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#6B7280" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+            <XAxis
+              dataKey="year"
+              tick={{ fill: "#9CA3AF", fontSize: 11 }}
+              tickLine={false}
+              axisLine={{ stroke: "#E5E7EB" }}
+            />
+            <YAxis
+              tickFormatter={formatYAxis}
+              tick={{ fill: "#9CA3AF", fontSize: 11 }}
+              tickLine={false}
+              axisLine={false}
+              width={55}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Area
+              type="monotone"
+              dataKey="mattisonValue"
+              name="Mattison"
+              stroke="#F7931A"
+              strokeWidth={2}
+              fill="url(#mattisonGradient)"
+            />
+            <Area
+              type="monotone"
+              dataKey="sp500Value"
+              name="S&P 500"
+              stroke="#6B7280"
+              strokeWidth={1.5}
+              fill="url(#sp500Gradient)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+      {/* Custom Legend with Icons */}
+      <div className="flex justify-center gap-6 pt-2">
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
+            <BitcoinIcon size={14} />
+            <GoldIcon size={14} />
+          </div>
+          <span className="text-xs text-gray-600">Mattison</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-gray-500" />
+          <span className="text-xs text-gray-600">S&P 500</span>
+        </div>
+      </div>
+    </div>
   );
 }

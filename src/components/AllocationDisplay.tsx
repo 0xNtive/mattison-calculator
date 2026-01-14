@@ -1,6 +1,7 @@
 "use client";
 
 import { AllocationResult, DetailedAllocation, formatCurrency, formatPercentage } from "@/lib/allocation";
+import { BitcoinIcon, GoldIcon } from "@/components/icons";
 
 interface AllocationDisplayProps {
   allocation: AllocationResult | DetailedAllocation;
@@ -49,14 +50,20 @@ export default function AllocationDisplay({ allocation, isDetailed }: Allocation
       {/* Compact allocation details */}
       <div className="grid grid-cols-2 gap-3">
         <div className="text-center p-3 bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg border border-yellow-200">
-          <p className="text-xs text-gray-500 mb-1">Gold / PMs</p>
+          <div className="flex items-center justify-center gap-1.5 mb-1">
+            <GoldIcon size={16} />
+            <p className="text-xs text-gray-500">Gold / PMs</p>
+          </div>
           <p className="text-2xl font-bold text-yellow-600">{formatPercentage(goldPercentage)}</p>
           {goldAmount !== undefined && (
             <p className="text-xs text-gray-500 mt-1">{formatCurrency(goldAmount)}</p>
           )}
         </div>
         <div className="text-center p-3 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg border border-orange-200">
-          <p className="text-xs text-gray-500 mb-1">Bitcoin / Crypto</p>
+          <div className="flex items-center justify-center gap-1.5 mb-1">
+            <BitcoinIcon size={16} />
+            <p className="text-xs text-gray-500">Bitcoin / Crypto</p>
+          </div>
           <p className="text-2xl font-bold text-orange-500">{formatPercentage(btcPercentage)}</p>
           {btcAmount !== undefined && (
             <p className="text-xs text-gray-500 mt-1">{formatCurrency(btcAmount)}</p>
