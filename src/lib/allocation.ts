@@ -400,3 +400,236 @@ export function simulateRebalancing(
     totalRebalanceEvents: Math.round(rebalanceEvents),
   };
 }
+
+// Strategy comparison types and calculations
+export type StrategyType = "mattison" | "60_40" | "all_weather" | "sp500" | "bitcoin" | "gold";
+
+export interface StrategyInfo {
+  id: StrategyType;
+  name: string;
+  description: string;
+  color: string;
+  allocation?: {
+    stocks?: number;
+    bonds?: number;
+    gold?: number;
+    bitcoin?: number;
+    commodities?: number;
+  };
+}
+
+export const STRATEGIES: StrategyInfo[] = [
+  {
+    id: "mattison",
+    name: "Mattison",
+    description: "Age-based Gold & Bitcoin allocation. Reduces crypto exposure as you age.",
+    color: "#F7931A",
+    allocation: { gold: 50, bitcoin: 50 }, // Will be dynamic based on age
+  },
+  {
+    id: "60_40",
+    name: "60/40",
+    description: "Classic portfolio: 60% stocks, 40% bonds. The traditional wealth preservation strategy.",
+    color: "#3b82f6",
+    allocation: { stocks: 60, bonds: 40 },
+  },
+  {
+    id: "all_weather",
+    name: "All-Weather",
+    description: "Bridgewater-style: 30% stocks, 40% bonds, 15% gold, 15% commodities for all conditions.",
+    color: "#8b5cf6",
+    allocation: { stocks: 30, bonds: 40, gold: 15, commodities: 15 },
+  },
+  {
+    id: "sp500",
+    name: "100% S&P 500",
+    description: "Pure US large-cap equity exposure. High growth potential with higher volatility.",
+    color: "#22c55e",
+    allocation: { stocks: 100 },
+  },
+  {
+    id: "bitcoin",
+    name: "100% Bitcoin",
+    description: "Maximum crypto exposure. Highest potential returns with extreme volatility.",
+    color: "#f97316",
+    allocation: { bitcoin: 100 },
+  },
+  {
+    id: "gold",
+    name: "100% Gold",
+    description: "Pure precious metals. Traditional inflation hedge and safe haven asset.",
+    color: "#FFD700",
+    allocation: { gold: 100 },
+  },
+];
+
+export interface StrategyDataPoint {
+  year: number;
+  [key: string]: number; // Dynamic keys for each strategy
+}
+
+export interface StrategyMetrics {
+  strategyId: StrategyType;
+  totalReturn: number;
+  annualizedReturn: number;
+  maxDrawdown: number;
+  volatility: number;
+  finalValue: number;
+}
+
+export interface StrategyComparisonResult {
+  dataPoints: StrategyDataPoint[];
+  metrics: StrategyMetrics[];
+}
+
+/**
+ * Calculate portfolio value for a given strategy at each year
+ */
+function calculateStrategyValue(
+  strategy: StrategyInfo,
+  initialInvestment: number,
+  priceData: { year: number; gold: number; bitcoin: number; sp500: number; bonds: number }[],
+  startYear: number,
+  mattisonGoldPct?: number,
+  mattisonBtcPct?: number
+): number[] {
+  const startData = priceData.find(p => p.year === startYear);
+  if (!startData) return [];
+
+  const alloc = strategy.allocation || {};
+  let goldPct = alloc.gold || 0;
+  let btcPct = alloc.bitcoin || 0;
+  const stocksPct = alloc.stocks || 0;
+  const bondsPct = alloc.bonds || 0;
+  const commoditiesPct = alloc.commodities || 0; // Treat as gold for simplicity
+
+  // For Mattison, use dynamic allocation
+  if (strategy.id === "mattison" && mattisonGoldPct !== undefined && mattisonBtcPct !== undefined) {
+    goldPct = mattisonGoldPct;
+    btcPct = mattisonBtcPct;
+  }
+
+  // Treat commodities as gold for simplicity
+  const effectiveGoldPct = goldPct + commoditiesPct;
+
+  // Calculate units purchased
+  const goldUnits = (initialInvestment * effectiveGoldPct / 100) / startData.gold;
+  const btcUnits = (initialInvestment * btcPct / 100) / startData.bitcoin;
+  const stockUnits = (initialInvestment * stocksPct / 100) / startData.sp500;
+  const bondUnits = (initialInvestment * bondsPct / 100) / startData.bonds;
+
+  const values: number[] = [];
+  const relevantData = priceData.filter(p => p.year >= startYear);
+
+  for (const data of relevantData) {
+    const goldValue = goldUnits * data.gold;
+    const btcValue = btcUnits * data.bitcoin;
+    const stockValue = stockUnits * data.sp500;
+    const bondValue = bondUnits * data.bonds;
+    const totalValue = goldValue + btcValue + stockValue + bondValue;
+    values.push(Math.round(totalValue));
+  }
+
+  return values;
+}
+
+/**
+ * Calculate max drawdown from a series of values
+ */
+function calculateMaxDrawdown(values: number[]): number {
+  let maxDrawdown = 0;
+  let peak = values[0];
+
+  for (const value of values) {
+    if (value > peak) {
+      peak = value;
+    }
+    const drawdown = (peak - value) / peak;
+    if (drawdown > maxDrawdown) {
+      maxDrawdown = drawdown;
+    }
+  }
+
+  return Math.round(maxDrawdown * 100 * 10) / 10;
+}
+
+/**
+ * Calculate volatility (standard deviation of annual returns)
+ */
+function calculateVolatility(values: number[]): number {
+  if (values.length < 2) return 0;
+
+  const returns: number[] = [];
+  for (let i = 1; i < values.length; i++) {
+    const annualReturn = (values[i] - values[i - 1]) / values[i - 1];
+    returns.push(annualReturn);
+  }
+
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const squaredDiffs = returns.map(r => Math.pow(r - mean, 2));
+  const variance = squaredDiffs.reduce((a, b) => a + b, 0) / returns.length;
+  const stdDev = Math.sqrt(variance);
+
+  return Math.round(stdDev * 100 * 10) / 10;
+}
+
+/**
+ * Compare multiple investment strategies over historical data
+ */
+export function compareStrategies(
+  selectedStrategies: StrategyType[],
+  initialInvestment: number,
+  priceData: { year: number; gold: number; bitcoin: number; sp500: number; bonds: number }[],
+  startYear: number,
+  mattisonGoldPct: number,
+  mattisonBtcPct: number
+): StrategyComparisonResult {
+  const years = priceData.filter(p => p.year >= startYear).map(p => p.year);
+  const strategyValues: { [key: string]: number[] } = {};
+
+  // Calculate values for each selected strategy
+  for (const strategyId of selectedStrategies) {
+    const strategy = STRATEGIES.find(s => s.id === strategyId);
+    if (!strategy) continue;
+
+    strategyValues[strategyId] = calculateStrategyValue(
+      strategy,
+      initialInvestment,
+      priceData,
+      startYear,
+      mattisonGoldPct,
+      mattisonBtcPct
+    );
+  }
+
+  // Build data points
+  const dataPoints: StrategyDataPoint[] = years.map((year, index) => {
+    const point: StrategyDataPoint = { year };
+    for (const strategyId of selectedStrategies) {
+      point[strategyId] = strategyValues[strategyId]?.[index] || 0;
+    }
+    return point;
+  });
+
+  // Calculate metrics for each strategy
+  const metrics: StrategyMetrics[] = selectedStrategies.map(strategyId => {
+    const values = strategyValues[strategyId] || [];
+    const finalValue = values[values.length - 1] || initialInvestment;
+    const totalReturn = ((finalValue - initialInvestment) / initialInvestment) * 100;
+    const yearsCount = years.length - 1;
+    const annualizedReturn = yearsCount > 0
+      ? (Math.pow(finalValue / initialInvestment, 1 / yearsCount) - 1) * 100
+      : 0;
+
+    return {
+      strategyId,
+      totalReturn: Math.round(totalReturn),
+      annualizedReturn: Math.round(annualizedReturn * 10) / 10,
+      maxDrawdown: calculateMaxDrawdown(values),
+      volatility: calculateVolatility(values),
+      finalValue,
+    };
+  });
+
+  return { dataPoints, metrics };
+}

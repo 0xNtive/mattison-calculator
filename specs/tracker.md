@@ -201,26 +201,26 @@ This document tracks the implementation progress of features defined in [specs/p
 ---
 
 ### Feature 3.3: Strategy Comparison Mode
-**Status:** 🔴 Not Started
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Define comparison strategies | ⬜ | 60/40, All-Weather, etc. |
-| Source/create historical data | ⬜ | Bonds data needed for 60/40 |
-| Build strategy selection UI | ⬜ | Multi-select checkboxes |
-| Implement strategy calculations | ⬜ | Return, drawdown, volatility |
-| Create comparison chart | ⬜ | Multi-line overlay |
-| Build comparison metrics table | ⬜ | Side-by-side stats |
-| Write strategy descriptions | ⬜ | Educational content |
-| Add time period selector | ⬜ | Compare over different ranges |
+| Define comparison strategies | ✅ | Mattison, 60/40, All-Weather, S&P 500, 100% BTC, 100% Gold |
+| Source/create historical data | ✅ | Added bonds data to historicalPrices.ts |
+| Build strategy selection UI | ✅ | Toggle buttons with color-coded selection |
+| Implement strategy calculations | ✅ | Total return, annualized return, max drawdown, volatility |
+| Create comparison chart | ✅ | Multi-line LineChart with dynamic strategies |
+| Build comparison metrics table | ✅ | Responsive table with key metrics |
+| Write strategy descriptions | ✅ | Descriptions for each strategy in UI |
+| Add time period selector | ✅ | Start year dropdown |
 
-**Files to modify:**
-- New: `src/components/StrategyComparison.tsx`
-- New: `src/data/bondPrices.ts` (if needed)
-- `src/lib/allocation.ts`
-- `src/app/page.tsx`
+**Files modified:**
+- New: `src/components/StrategyComparison.tsx` - Full comparison component
+- `src/data/historicalPrices.ts` - Added bonds index data
+- `src/lib/allocation.ts` - Added compareStrategies, STRATEGIES, StrategyType, metrics calculations
+- `src/app/page.tsx` - Integrated StrategyComparison component
 
-**Dependencies:** May need additional historical data
+**Dependencies:** None (bonds data added inline)
 
 ---
 
@@ -282,9 +282,9 @@ This document tracks the implementation progress of features defined in [specs/p
 |-------|----------|--------|----------|
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
 | Phase 2 | Data & Flexibility | 🟢 Complete | 3/3 |
-| Phase 3 | Educational Tools | 🟡 In Progress | 2/3 |
+| Phase 3 | Educational Tools | 🟢 Complete | 3/3 |
 | Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **7/10** |
+| **Total** | **10 Features** | | **8/10** |
 
 ---
 
@@ -339,3 +339,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Feature 2.3 (Enhanced Share Cards) completed - Premium dark theme, asset logos, historical performance badge (+X% since 2015), improved sub-allocation display |
 | 2026-01-14 | Feature 3.1 (Retirement Age Projection) completed - Timeline chart showing allocation shift from current age to retirement, milestone markers, educational context |
 | 2026-01-14 | Feature 3.2 (Rebalancing Simulator) completed - Compare rebalanced vs buy-and-hold portfolios, frequency toggle, educational explanation |
+| 2026-01-14 | Feature 3.3 (Strategy Comparison Mode) completed - Compare Mattison vs 60/40, All-Weather, S&P 500, 100% BTC, 100% Gold with metrics table |

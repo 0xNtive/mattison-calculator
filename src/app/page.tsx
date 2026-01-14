@@ -9,6 +9,7 @@ import HistoricalCalculator from "@/components/HistoricalCalculator";
 import { AllocationResult, SubAllocations, DEFAULT_SUB_ALLOCATIONS } from "@/lib/allocation";
 import RetirementProjection from "@/components/RetirementProjection";
 import RebalancingSimulator from "@/components/RebalancingSimulator";
+import StrategyComparison from "@/components/StrategyComparison";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -86,6 +87,12 @@ export default function Home() {
 
               {/* Rebalancing Simulator */}
               <RebalancingSimulator
+                goldPercentage={allocation.goldPercentage}
+                btcPercentage={allocation.btcPercentage}
+              />
+
+              {/* Strategy Comparison */}
+              <StrategyComparison
                 goldPercentage={allocation.goldPercentage}
                 btcPercentage={allocation.btcPercentage}
               />
