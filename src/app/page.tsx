@@ -10,6 +10,7 @@ import { AllocationResult, SubAllocations, DEFAULT_SUB_ALLOCATIONS } from "@/lib
 import RetirementProjection from "@/components/RetirementProjection";
 import RebalancingSimulator from "@/components/RebalancingSimulator";
 import StrategyComparison from "@/components/StrategyComparison";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
   const [allocation, setAllocation] = useState<AllocationResult>({
@@ -39,13 +40,18 @@ export default function Home() {
       <main className="flex-1 py-4 md:py-8">
         <div className="max-w-7xl mx-auto px-4">
           {/* Header */}
-          <header className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-              Mattison Allocation Calculator
-            </h1>
-            <p className="text-[var(--foreground-muted)] text-sm mt-2">
-              Age-based Gold &amp; Bitcoin portfolio allocation
-            </p>
+          <header className="relative mb-8">
+            <div className="absolute right-0 top-0">
+              <ThemeToggle />
+            </div>
+            <div className="text-center">
+              <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] tracking-tight">
+                Mattison Allocation Calculator
+              </h1>
+              <p className="text-[var(--foreground-muted)] text-sm mt-2">
+                Age-based Gold &amp; Bitcoin portfolio allocation
+              </p>
+            </div>
           </header>
 
           {/* Main grid - two columns on desktop */}

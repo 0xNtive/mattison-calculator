@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Dark theme (default) */
 :root {
   /* Base colors */
   --background: #0f0f14;
@@ -47,6 +48,54 @@
   --card-glow-bitcoin: 0 0 60px -20px var(--bitcoin-glow);
 }
 
+/* Light theme */
+[data-theme="light"] {
+  /* Base colors */
+  --background: #f8f9fa;
+  --background-secondary: #ffffff;
+  --foreground: #1a1a2e;
+  --foreground-muted: #64748b;
+
+  /* Gold palette - lighter version */
+  --gold: #D4A800;
+  --gold-light: #F5C800;
+  --gold-dark: #A08000;
+  --gold-darker: #7A6000;
+  --gold-glow: rgba(212, 168, 0, 0.3);
+  --gold-glow-strong: rgba(212, 168, 0, 0.5);
+
+  /* Bitcoin palette - adjusted for light mode */
+  --bitcoin: #E6820F;
+  --bitcoin-light: #F7931A;
+  --bitcoin-dark: #CC6600;
+  --bitcoin-darker: #A35200;
+  --bitcoin-glow: rgba(230, 130, 15, 0.3);
+  --bitcoin-glow-strong: rgba(230, 130, 15, 0.5);
+
+  /* Premium light palette */
+  --premium-dark-start: #f0f0f5;
+  --premium-dark-mid: #e5e5eb;
+  --premium-dark-end: #f8f9fa;
+
+  /* Premium accent colors */
+  --accent-success: #16a34a;
+  --accent-success-glow: rgba(22, 163, 74, 0.2);
+  --accent-danger: #dc2626;
+  --accent-danger-glow: rgba(220, 38, 38, 0.2);
+  --neutral: #94a3b8;
+  --neutral-light: #64748b;
+
+  /* Card styling - light glassmorphism */
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-bg-solid: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --card-border-highlight: rgba(0, 0, 0, 0.15);
+  --card-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
+  --card-shadow-hover: 0 16px 48px -8px rgba(0, 0, 0, 0.2);
+  --card-glow-gold: 0 0 40px -15px var(--gold-glow);
+  --card-glow-bitcoin: 0 0 40px -15px var(--bitcoin-glow);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -71,6 +120,16 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme body background */
+[data-theme="light"] body {
+  background: var(--background);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(247, 147, 26, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+    radial-gradient(ellipse 50% 30% at 20% 80%, rgba(247, 147, 26, 0.03) 0%, transparent 40%);
 }
 
 /* Premium card styles */
@@ -215,6 +274,13 @@ body {
   border: 1px solid var(--card-border-highlight);
 }
 
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+}
+
 /* Animated shine effect */
 @keyframes shine {
   0% {
@@ -312,4 +378,61 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/* Light theme specific overrides */
+[data-theme="light"] .glow-gold,
+[data-theme="light"] .glow-bitcoin,
+[data-theme="light"] .glow-gold-subtle,
+[data-theme="light"] .glow-bitcoin-subtle {
+  text-shadow: none;
+}
+
+[data-theme="light"] .box-glow-gold,
+[data-theme="light"] .box-glow-bitcoin {
+  box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Light theme glass card */
+[data-theme="light"] .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Light theme premium input */
+[data-theme="light"] .premium-input {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .premium-input:focus {
+  border-color: var(--bitcoin);
+  box-shadow: 0 0 0 3px rgba(247, 147, 26, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Light theme premium button */
+[data-theme="light"] .premium-button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 249, 250, 1) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .premium-button:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 245, 1) 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }

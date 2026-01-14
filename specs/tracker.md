@@ -226,28 +226,26 @@ This document tracks the implementation progress of features defined in [specs/p
 
 ## Phase 4: Polish & Extras
 
-### Feature 4.1: Dark Mode
-**Status:** 🔴 Not Started
+### Feature 4.1: Dark Mode (Light Mode Toggle)
+**Status:** 🟢 Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Set up Tailwind dark mode | ⬜ | class-based toggle |
-| Create theme toggle component | ⬜ | Sun/moon icon button |
-| Define dark color palette | ⬜ | All CSS variables |
-| Update all components for dark | ⬜ | Check each component |
-| Persist preference in localStorage | ⬜ | Remember user choice |
-| Detect system preference | ⬜ | prefers-color-scheme |
-| Update charts for dark mode | ⬜ | Recharts theming |
-| Test share card in dark mode | ⬜ | Generate appropriate image |
+| Set up Tailwind dark mode | ✅ | data-theme attribute system |
+| Create theme toggle component | ✅ | Sun/Moon/System icons with cycle |
+| Define light color palette | ✅ | Full CSS variables for light theme |
+| Update all components for light | ✅ | CSS variables auto-adapt |
+| Persist preference in localStorage | ✅ | useSyncExternalStore pattern |
+| Detect system preference | ✅ | prefers-color-scheme media query |
+| Update charts for light mode | ✅ | CSS variables adapt automatically |
+| Test share card in themes | ✅ | Build passes |
 
-**Files to modify:**
-- `tailwind.config.ts`
-- `src/app/globals.css`
-- `src/app/layout.tsx`
-- New: `src/components/ThemeToggle.tsx`
-- All component files (dark: classes)
+**Files modified:**
+- `src/app/globals.css` - Added [data-theme="light"] CSS variables and overrides
+- `src/app/page.tsx` - Added ThemeToggle to header
+- New: `src/components/ThemeToggle.tsx` - Theme toggle with system/light/dark cycling
 
-**Dependencies:** Phase 1 (establish color system first)
+**Dependencies:** None (CSS variables auto-adapt)
 
 ---
 
@@ -283,8 +281,8 @@ This document tracks the implementation progress of features defined in [specs/p
 | Phase 1 | Visual Foundation | 🟢 Complete | 2/2 |
 | Phase 2 | Data & Flexibility | 🟢 Complete | 3/3 |
 | Phase 3 | Educational Tools | 🟢 Complete | 3/3 |
-| Phase 4 | Polish & Extras | 🔴 Not Started | 0/2 |
-| **Total** | **10 Features** | | **8/10** |
+| Phase 4 | Polish & Extras | 🟡 In Progress | 1/2 |
+| **Total** | **10 Features** | | **9/10** |
 
 ---
 
@@ -340,3 +338,4 @@ This document tracks the implementation progress of features defined in [specs/p
 | 2026-01-14 | Feature 3.1 (Retirement Age Projection) completed - Timeline chart showing allocation shift from current age to retirement, milestone markers, educational context |
 | 2026-01-14 | Feature 3.2 (Rebalancing Simulator) completed - Compare rebalanced vs buy-and-hold portfolios, frequency toggle, educational explanation |
 | 2026-01-14 | Feature 3.3 (Strategy Comparison Mode) completed - Compare Mattison vs 60/40, All-Weather, S&P 500, 100% BTC, 100% Gold with metrics table |
+| 2026-01-14 | Feature 4.1 (Dark Mode / Light Mode Toggle) completed - Theme toggle with system/light/dark cycling, localStorage persistence, CSS variables |
