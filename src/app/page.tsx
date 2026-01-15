@@ -123,9 +123,20 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <footer className="text-center text-[var(--neutral)] text-xs mt-8 pt-4 border-t border-[var(--card-border)]">
+          <footer className="text-center text-[var(--neutral)] text-xs mt-8 pt-4 border-t border-[var(--card-border)] space-y-2">
             <p>
               For educational purposes only. Past performance does not guarantee future results.
+            </p>
+            <p>
+              Developed by{" "}
+              <a
+                href="https://x.com/Techster"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--bitcoin)] hover:text-[var(--bitcoin-light)] transition-colors"
+              >
+                Techster
+              </a>
             </p>
           </footer>
         </div>

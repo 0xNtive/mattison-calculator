@@ -257,16 +257,15 @@ export default function RebalancingSimulator({
 
           {/* Educational context */}
           <div className="glass-card rounded-lg p-3 text-xs text-[var(--foreground-muted)]">
-            <p className="font-semibold text-white mb-1">Why Rebalancing Matters</p>
+            <p className="font-semibold text-white mb-1">About Rebalancing</p>
             <p>
-              Rebalancing periodically restores your portfolio to its target allocation, selling
-              winners and buying underperformers. This enforces a &quot;buy low, sell high&quot;
-              discipline. With volatile assets like Bitcoin and Gold,{" "}
+              Rebalancing periodically restores a portfolio to its target allocation.
+              This simulation compares rebalancing vs buy-and-hold using historical data.{" "}
               {frequency === "none" ? (
-                "buy-and-hold lets winners run but increases concentration risk."
+                "Buy-and-hold maintains original asset units without adjustments."
               ) : (
                 <>
-                  {frequency} rebalancing captured{" "}
+                  In this simulation, {frequency} rebalancing resulted in{" "}
                   <span
                     className={
                       result.differencePercent >= 0 ? "text-[#10b981]" : "text-red-400"

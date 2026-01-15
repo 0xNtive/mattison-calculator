@@ -27,10 +27,10 @@ export default function LearnMore() {
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[1500px] opacity-100" : "max-h-0 opacity-0"}`}>
         <div className="px-4 pb-5 space-y-5 text-sm border-t border-[var(--card-border)]">
           <section className="pt-4">
-            <h3 className="font-semibold text-white mb-2">The Philosophy</h3>
+            <h3 className="font-semibold text-white mb-2">The Concept</h3>
             <p className="text-[var(--foreground-muted)] leading-relaxed">
-              A simple, age-based strategy balancing two hard assets: <strong className="text-[var(--gold)]">Gold</strong> and <strong className="text-[var(--bitcoin)]">Bitcoin</strong>.
-              Younger investors allocate more to Bitcoin for growth; older investors favor gold for stability.
+              An age-based formula for allocating between two hard assets: <strong className="text-[var(--gold)]">Gold</strong> and <strong className="text-[var(--bitcoin)]">Bitcoin</strong>.
+              The formula assigns higher Bitcoin allocation at younger ages, shifting toward gold over time.
             </p>
           </section>
 
@@ -43,32 +43,32 @@ export default function LearnMore() {
           </section>
 
           <section>
-            <h3 className="font-semibold text-white mb-2">Why It Works</h3>
+            <h3 className="font-semibold text-white mb-2">Key Characteristics</h3>
             <ul className="text-[var(--foreground-muted)] space-y-2">
               <li className="flex gap-2">
-                <span className="text-[var(--gold)]">&#10003;</span>
-                <span><strong className="text-white">Uncorrelated</strong> &ndash; Gold and BTC move independently</span>
+                <span className="text-[var(--gold)]">&#8226;</span>
+                <span><strong className="text-white">Low correlation</strong> &ndash; Gold and BTC historically move independently</span>
               </li>
               <li className="flex gap-2">
-                <span className="text-[var(--gold)]">&#10003;</span>
-                <span><strong className="text-white">Time-tested + emerging</strong> &ndash; 5,000 years meets the future</span>
+                <span className="text-[var(--gold)]">&#8226;</span>
+                <span><strong className="text-white">Different asset classes</strong> &ndash; Traditional store of value meets digital asset</span>
               </li>
               <li className="flex gap-2">
-                <span className="text-[var(--gold)]">&#10003;</span>
-                <span><strong className="text-white">Age-appropriate</strong> &ndash; Auto-adjusts risk as you age</span>
+                <span className="text-[var(--gold)]">&#8226;</span>
+                <span><strong className="text-white">Age-based</strong> &ndash; Allocation shifts based on age input</span>
               </li>
               <li className="flex gap-2">
-                <span className="text-[var(--gold)]">&#10003;</span>
-                <span><strong className="text-white">Hard money</strong> &ndash; Both are scarce and inflation-resistant</span>
+                <span className="text-[var(--gold)]">&#8226;</span>
+                <span><strong className="text-white">Fixed supply</strong> &ndash; Both assets have limited supply characteristics</span>
               </li>
             </ul>
           </section>
 
           <section>
-            <h3 className="font-semibold text-white mb-2">Core vs. Satellite</h3>
+            <h3 className="font-semibold text-white mb-2">Core vs. Satellite Concept</h3>
             <p className="text-[var(--foreground-muted)] leading-relaxed">
-              Use this as your <strong className="text-white">core holding</strong> (35-60% of portfolio).
-              The rest goes to <strong className="text-white">satellite</strong> positions like equities&mdash;favor non-USD denominated (e.g., EEM).
+              Some investors structure portfolios with a <strong className="text-white">core holding</strong> and <strong className="text-white">satellite</strong> positions.
+              This calculator focuses on the hard asset allocation portion only.
             </p>
           </section>
         </div>

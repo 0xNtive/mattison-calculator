@@ -147,38 +147,38 @@ body {
   box-shadow: var(--card-shadow-hover);
 }
 
-/* Glow effects */
+/* Glow effects - subtle */
 .glow-gold {
-  text-shadow: 0 0 20px var(--gold-glow), 0 0 40px var(--gold-glow), 0 0 60px var(--gold-glow-strong);
+  text-shadow: 0 0 8px var(--gold-glow);
 }
 
 .glow-bitcoin {
-  text-shadow: 0 0 20px var(--bitcoin-glow), 0 0 40px var(--bitcoin-glow), 0 0 60px var(--bitcoin-glow-strong);
+  text-shadow: 0 0 8px var(--bitcoin-glow);
 }
 
 .glow-gold-subtle {
-  text-shadow: 0 0 15px var(--gold-glow), 0 0 30px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.2);
 }
 
 .glow-bitcoin-subtle {
-  text-shadow: 0 0 15px var(--bitcoin-glow), 0 0 30px rgba(247, 147, 26, 0.3);
+  text-shadow: 0 0 6px rgba(247, 147, 26, 0.2);
 }
 
 .glow-success {
-  text-shadow: 0 0 15px var(--accent-success-glow), 0 0 30px var(--accent-success-glow);
+  text-shadow: 0 0 6px var(--accent-success-glow);
 }
 
 .glow-danger {
-  text-shadow: 0 0 15px var(--accent-danger-glow), 0 0 30px var(--accent-danger-glow);
+  text-shadow: 0 0 6px var(--accent-danger-glow);
 }
 
-/* Box glow effects */
+/* Box glow effects - subtle */
 .box-glow-gold {
-  box-shadow: 0 0 40px -10px var(--gold-glow), 0 0 80px -20px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px -8px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .box-glow-bitcoin {
-  box-shadow: 0 0 40px -10px var(--bitcoin-glow), 0 0 80px -20px var(--bitcoin-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px -8px var(--bitcoin-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Premium gradients */
@@ -329,15 +329,15 @@ body {
   font-weight: 700;
 }
 
-/* Allocation bar glow */
+/* Allocation bar glow - subtle */
 .allocation-bar-gold {
   background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
-  box-shadow: 0 0 30px -5px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px -4px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .allocation-bar-bitcoin {
   background: linear-gradient(135deg, var(--bitcoin-light) 0%, var(--bitcoin) 50%, var(--bitcoin-dark) 100%);
-  box-shadow: 0 0 30px -5px var(--bitcoin-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px -4px var(--bitcoin-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Custom scrollbar */

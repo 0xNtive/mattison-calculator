@@ -8,25 +8,35 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Mattison Allocation Calculator",
-  description: "Calculate your optimal portfolio allocation based on the Mattison Allocation strategy. Age-based recommendations for Gold and Bitcoin allocation.",
+  title: "Mattison Allocation Calculator | Gold & Bitcoin Portfolio Tool",
+  description: "Explore the Mattison Allocation formula - an age-based approach to Gold and Bitcoin allocation. View historical performance simulations and compare strategies.",
+  keywords: ["Mattison Allocation", "Gold", "Bitcoin", "portfolio calculator", "asset allocation", "crypto allocation"],
+  authors: [{ name: "Techster", url: "https://x.com/Techster" }],
   openGraph: {
     title: "Mattison Allocation Calculator",
-    description: "Calculate your optimal portfolio allocation based on the Mattison Allocation strategy.",
+    description: "Explore the Mattison Allocation formula - an age-based approach to Gold and Bitcoin allocation.",
     type: "website",
+    siteName: "Mattison Allocation Calculator",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Mattison Allocation Calculator",
+        alt: "Mattison Allocation Calculator - Gold & Bitcoin Portfolio Tool",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mattison Allocation Calculator",
-    description: "Calculate your optimal portfolio allocation based on the Mattison Allocation strategy.",
+    description: "Explore the Mattison Allocation formula - an age-based approach to Gold and Bitcoin allocation.",
+    creator: "@Techster",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 

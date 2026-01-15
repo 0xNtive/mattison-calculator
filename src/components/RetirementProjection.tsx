@@ -225,12 +225,10 @@ export default function RetirementProjection({ currentAge }: RetirementProjectio
 
           {/* Educational context */}
           <div className="glass-card rounded-lg p-3 text-xs text-[var(--foreground-muted)]">
-            <p className="font-semibold text-white mb-1">Why Your Allocation Shifts</p>
+            <p className="font-semibold text-white mb-1">How the Allocation Changes</p>
             <p>
-              As you approach retirement, the Mattison formula gradually increases your
-              allocation to gold and precious metals. This shift reduces portfolio volatility
-              and protects your wealth when you have less time to recover from market
-              downturns. At age {retirementAge}, you&apos;ll hold{" "}
+              The Mattison formula increases the gold allocation as age increases.
+              At age {retirementAge}, the formula calculates{" "}
               <span className="text-[var(--gold)] font-semibold">
                 {retirementAllocation?.goldPercentage}% Gold
               </span>{" "}
