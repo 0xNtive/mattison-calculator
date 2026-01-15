@@ -56,7 +56,7 @@ export default function HistoricalCalculator({
     : 0;
 
   return (
-    <div className="premium-card rounded-xl h-full flex flex-col">
+    <div className="premium-card rounded-xl flex flex-col">
       {/* Header with inline inputs */}
       <div className="p-4 border-b border-[var(--card-border)]">
         <div className="flex flex-wrap items-center gap-3">
@@ -87,8 +87,8 @@ export default function HistoricalCalculator({
       </div>
 
       {/* Chart */}
-      <div className="flex-1 p-4" style={{ minHeight: 280 }}>
-        <div className="h-full" style={{ height: 260 }}>
+      <div className="p-4">
+        <div style={{ height: 260 }}>
           <PerformanceChart data={portfolioHistory} />
         </div>
       </div>

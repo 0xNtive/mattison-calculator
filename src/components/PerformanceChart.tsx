@@ -50,7 +50,7 @@ const CustomTooltip = ({
 export default function PerformanceChart({ data }: PerformanceChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center text-[var(--neutral)] text-sm">
+      <div className="flex items-center justify-center text-[var(--neutral)] text-sm" style={{ height: '100%' }}>
         Enter investment details to see chart
       </div>
     );
@@ -63,8 +63,8 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex-1">
+    <div className="flex flex-col" style={{ height: '100%' }}>
+      <div style={{ flex: 1, minHeight: 0 }}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <defs>
