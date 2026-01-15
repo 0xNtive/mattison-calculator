@@ -122,8 +122,26 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Book promotion */}
+          <div className="mt-8 flex justify-center">
+            <a
+              href="https://www.melmattison.com/quoz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--gold-dark)] to-[var(--bitcoin)] text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm0 2h7v5h5v11H6V4zm2 8v2h8v-2H8zm0 4v2h5v-2H8z"/>
+              </svg>
+              <span>Buy Mel Mattison&apos;s Book</span>
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+
           {/* Footer */}
-          <footer className="text-center text-[var(--neutral)] text-xs mt-8 pt-4 border-t border-[var(--card-border)] space-y-2">
+          <footer className="text-center text-[var(--neutral)] text-xs mt-6 pt-4 border-t border-[var(--card-border)] space-y-2">
             <p>
               For educational purposes only. Past performance does not guarantee future results.
             </p>
