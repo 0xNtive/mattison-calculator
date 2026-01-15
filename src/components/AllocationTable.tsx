@@ -177,14 +177,14 @@ export default function AllocationTable({
   return (
     <div className="space-y-3">
       {/* Desktop table view */}
-      <div className="hidden md:block overflow-hidden rounded-xl glass">
-        <table className="w-full">
+      <div className="hidden md:block overflow-x-auto rounded-xl glass">
+        <table className="w-full" style={{ minWidth: 400 }}>
           <thead>
             <tr className="border-b border-[var(--card-border)]">
-              <th className="text-left text-xs text-[var(--foreground-muted)] font-medium px-4 py-3">Asset</th>
-              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-4 py-3">Allocation</th>
-              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-4 py-3">Amount</th>
-              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-4 py-3">5Y Trend</th>
+              <th className="text-left text-xs text-[var(--foreground-muted)] font-medium px-3 py-3 whitespace-nowrap">Asset</th>
+              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-3 py-3 whitespace-nowrap">Allocation</th>
+              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-3 py-3 whitespace-nowrap">Amount</th>
+              <th className="text-right text-xs text-[var(--foreground-muted)] font-medium px-3 py-3 whitespace-nowrap">5Y Trend</th>
             </tr>
           </thead>
           <tbody>
@@ -193,13 +193,13 @@ export default function AllocationTable({
                 key={row.name}
                 className={index < rows.length - 1 ? "border-b border-[var(--card-border)]" : ""}
               >
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    {row.icon}
+                <td className="px-3 py-3">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <span className="flex-shrink-0">{row.icon}</span>
                     <span className="text-sm text-white font-medium">{row.name}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-right">
+                <td className="px-3 py-3 text-right whitespace-nowrap">
                   <span
                     className="text-lg font-bold number-large"
                     style={{ color: row.color }}
@@ -207,14 +207,14 @@ export default function AllocationTable({
                     {formatPercentage(row.percentage)}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-right">
+                <td className="px-3 py-3 text-right whitespace-nowrap">
                   <span className="text-sm text-[var(--foreground-muted)] number-display">
                     {row.amount !== undefined ? formatCurrency(row.amount) : "—"}
                   </span>
                 </td>
-                <td className="px-4 py-3">
-                  <div className="flex justify-end">
-                    <Sparkline data={row.sparklineData} color={row.color} />
+                <td className="px-3 py-3">
+                  <div className="flex justify-end flex-shrink-0">
+                    <Sparkline data={row.sparklineData} color={row.color} width={60} height={24} />
                   </div>
                 </td>
               </tr>

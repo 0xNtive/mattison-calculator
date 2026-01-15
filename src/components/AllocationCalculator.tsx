@@ -93,7 +93,7 @@ export default function AllocationCalculator({
   };
 
   return (
-    <div className="premium-card rounded-xl p-5">
+    <div className="premium-card rounded-xl p-5 overflow-hidden">
       <h2 className="text-lg font-semibold text-white mb-5">Your Allocation</h2>
 
       {/* Inputs row */}

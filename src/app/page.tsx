@@ -58,7 +58,7 @@ export default function Home() {
           {/* Main grid - two columns on desktop */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
             {/* Left column - Calculator */}
-            <div className="lg:col-span-4 space-y-4">
+            <div className="lg:col-span-5 space-y-4" style={{ minWidth: 0 }}>
               <AllocationCalculator
                 onAgeChange={handleAgeChange}
                 onAllocationChange={handleAllocationChange}
@@ -68,7 +68,7 @@ export default function Home() {
               {/* Share buttons and PDF Export */}
               <div className="premium-card rounded-xl p-4">
                 <p className="text-xs text-[var(--foreground-muted)] text-center mb-3">Share your allocation</p>
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-2">
                   <ShareButtons
                     age={age}
                     goldPercentage={allocation.goldPercentage}
@@ -94,7 +94,7 @@ export default function Home() {
             </div>
 
             {/* Right column - Chart and Tools */}
-            <div className="lg:col-span-8 space-y-4">
+            <div className="lg:col-span-7 space-y-4">
               <HistoricalCalculator
                 goldPercentage={allocation.goldPercentage}
                 btcPercentage={allocation.btcPercentage}
